@@ -15,6 +15,7 @@ async function loadReferrals(){
  if(error){target.textContent='Referral queue unavailable. Apply migration 004 to grant admin review permissions.';return}
  if(!data?.length){target.textContent='No referrals recorded yet. Public buyer intake is not enabled.';return}
  for(const record of data){
+  const {data:buyer}=await supabase.from('referral_buyers').select('buyer_name,buyer_email,consent_at').eq('referral_id',record.id).maybeSingle();
   const box=document.createElement('div');box.className='card';
   const details=document.createElement('p');
   details.textContent=(record.vehicle_stock||'Unspecified vehicle')+' • '+(record.dealership_name||'Dealership pending')+' • '+new Date(record.created_at).toLocaleDateString();
@@ -25,7 +26,11 @@ async function loadReferrals(){
   select.value=record.status;
   const save=document.createElement('button');save.textContent='Update status';
   save.onclick=async()=>{save.disabled=true;const {error}=await supabase.from('referral_records').update({status:select.value,updated_at:new Date().toISOString()}).eq('id',record.id);save.disabled=false;status.textContent=error?'Update failed: '+error.message:'Referral status saved.'};
-  box.append(details,member,select,save);target.append(box)
+  const contact=document.createElement('p');contact.textContent=buyer?'Buyer: '+buyer.buyer_name+' • '+buyer.buyer_email+' • consent recorded '+new Date(buyer.consent_at).toLocaleDateString():'Buyer contact unavailable';
+  const history=document.createElement('div');history.className='muted';history.textContent='Status history unavailable until migration 006 is installed.';
+  const {data:changes,error:historyError}=await supabase.from('referral_status_audit').select('old_status,new_status,changed_at').eq('referral_id',record.id).order('changed_at',{ascending:false}).limit(10);
+  if(!historyError){history.textContent=changes?.length?'Recent status history: '+changes.map(c=>c.old_status+' → '+c.new_status+' ('+new Date(c.changed_at).toLocaleDateString()+')').join('; '):'No status changes recorded yet.'}
+  box.append(details,member,contact,select,save,history);target.append(box)
  }
 }
 document.getElementById('signout').onclick=async()=>{await supabase.auth.signOut();location.href='./member.html'};verify();
