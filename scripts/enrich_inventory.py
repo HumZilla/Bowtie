@@ -94,6 +94,7 @@ def main():
    html=fetch(url)
    if not html:continue
    details=extract(html,vin,base)
+   if not details:continue  # Do not mark unverifiable pages as matched
    v['dealerUrl']=url;counts['matched']+=1
    for key in ('price','miles','photo'):
     if details.get(key) is not None and details.get(key)!='':
