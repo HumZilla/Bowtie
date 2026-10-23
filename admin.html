@@ -52,6 +52,7 @@ const goldCell=cell('');const checkbox=document.createElement('input');checkbox.
 checkbox.onchange=async()=>{checkbox.disabled=true;const next=checkbox.checked;const {error}=await supabase.from('bowtie_inventory_admin').upsert({vin:v.vin,stock:v.stock,dealership:v.store,days_in_inventory:v.days_in_inventory??null,gold_bowtie:next,updated_at:new Date().toISOString()},{onConflict:'vin'});checkbox.disabled=false;if(error){checkbox.checked=!next;inventoryMsg.textContent='Could not save: '+error.message;return}v.gold_bowtie=next;inventoryMsg.textContent='Gold Bowtie saved. Public showroom updates when visitors reload.'};
 goldCell.append(checkbox);line.append(goldCell);body.append(line)
 }
+table.append(body);inventoryAges.append(table);
 }
 document.getElementById('signout').onclick=async()=>{await supabase.auth.signOut();location.href='./member.html'};verify();
 </script></body></html>
