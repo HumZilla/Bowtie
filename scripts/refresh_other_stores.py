@@ -30,10 +30,10 @@ def parse_page(html):
   host=(urllib.parse.urlparse(full).hostname or "").lower().removeprefix("www.")
   if host not in STORES:continue
   label=" ".join(label.split())
-  vin=re.search(r"\\bvin\\s*[:#]?\\s*([A-HJ-NPR-Z0-9]{17})\\b",label,re.I)
-  stock=re.search(r"\\bStock\\s*#\\s*([A-Za-z0-9-]+)",label,re.I)
-  title=re.search(r"\\b(20\\d{2}|19\\d{2})\\s+(.+?)\\s+Selling Price",label,re.I)
-  miles=re.search(r"\\bMileage\\s+([\\d,]+)\\s+Miles",label,re.I)
+  vin=re.search(r"\bvin\s*[:#]?\s*([A-HJ-NPR-Z0-9]{17})\b",label,re.I)
+  stock=re.search(r"\bStock\s*#\s*([A-Za-z0-9-]+)",label,re.I)
+  title=re.search(r"\b(20\d{2}|19\d{2})\s+(.+?)\s+Selling Price",label,re.I)
+  miles=re.search(r"\bMileage\s+([\d,]+)\s+Miles",label,re.I)
   if not(vin and stock and title):continue
   vehicle=title.group(2).strip()
   makes=["Mercedes-Benz","Land Rover","Alfa Romeo","Aston Martin","Chevrolet","Volkswagen","Mitsubishi","INFINITI","Nissan","Toyota","Honda","Hyundai","Kia","Ford","Jeep","Dodge","GMC","RAM","BMW","Audi","Lexus","Subaru","Buick","Mazda","Lincoln","Volvo","Cadillac","Porsche","Acura","Genesis","Chrysler","MINI","Tesla","FIAT"]
