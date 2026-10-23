@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bowtie | Admin Control Center</title><style>:root{color-scheme:dark;font-family:system-ui;background:#100b19;color:#f5effb}body{margin:0;background:radial-gradient(ellipse at top right,#4a2567,transparent 55%),#100b19;min-height:100vh}main,header{max-width:950px;margin:auto;padding:24px}header{border-bottom:1px solid #76588a;display:flex;justify-content:space-between;align-items:center}a{color:#f1c66e}h1{color:#f1c66e}.card{border:1px solid #72568b;border-radius:16px;background:#23182e;padding:24px;margin:16px 0}.muted{color:#c9b9d7}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}button{padding:12px;border:0;border-radius:8px;background:#eac478;font-weight:bold;cursor:pointer}</style></head><body><header><strong>BOWTIE. / ADMIN</strong><a href="./member.html">← Member dashboard</a></header><main><h1>Bowtie Control Center</h1><p id="status" role="status">Verifying administrator access…</p><section id="panel" hidden><div class="card"><h2>Administrator access verified</h2><p class="muted">This is the protected admin foundation. Live customer records, editing controls, and rewards are not enabled.</p></div><div class="grid"><div class="card"><h3>Members</h3><p>Management coming next. No member directory access yet.</p></div><div class="card"><h3>Referrals</h3><p>Review queue coming next. Member referral data remains private.</p></div><div class="card"><h3>Inventory</h3><p>Approved dealership feed integration pending.</p></div><div class="card"><h3>Rewards</h3><p>Disabled pending legal and dealership compliance approval.</p></div></div><button id="signout">Sign out</button></section></main><script type="module">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bowtie | Admin Control Center</title><style>:root{color-scheme:dark;font-family:system-ui;background:#100b19;color:#f5effb}body{margin:0;background:radial-gradient(ellipse at top right,#4a2567,transparent 55%),#100b19;min-height:100vh}main,header{max-width:950px;margin:auto;padding:24px}header{border-bottom:1px solid #76588a;display:flex;justify-content:space-between;align-items:center}a{color:#f1c66e}h1{color:#f1c66e}.card{border:1px solid #72568b;border-radius:16px;background:#23182e;padding:24px;margin:16px 0}.muted{color:#c9b9d7}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}button{padding:12px;border:0;border-radius:8px;background:#eac478;font-weight:bold;cursor:pointer}</style></head><body><header><strong>BOWTIE. / ADMIN</strong><a href="./member.html">← Member dashboard</a></header><main><h1>Bowtie Control Center</h1><p id="status" role="status">Verifying administrator access…</p><section id="panel" hidden><div class="card"><h2>Administrator access verified</h2><p class="muted">This is the protected admin foundation. Live customer records, editing controls, and rewards are not enabled.</p></div><div class="grid"><div class="card"><h3>Members</h3><p>Management coming next. No member directory access yet.</p></div><div class="card"><h3>Referrals</h3><p>Review and update recorded referrals.</p><div id="referralqueue" class="muted">Loading…</div></div><div class="card"><h3>Inventory</h3><p>Approved dealership feed integration pending.</p></div><div class="card"><h3>Rewards</h3><p>Disabled pending legal and dealership compliance approval.</p></div></div><button id="signout">Sign out</button></section></main><script type="module">
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
 const supabase=createClient('https://uwwzrfijxbvxqvivbudh.supabase.co','sb_publishable_djuaYH0SjmfGBVXKWgbyBQ_1e8uWAbf');
 const status=document.getElementById('status'),panel=document.getElementById('panel');
@@ -6,6 +6,27 @@ async function verify(){const {data:{user},error}=await supabase.auth.getUser();
 const {data:role,error:roleError}=await supabase.from('admin_members').select('user_id').eq('user_id',user.id).maybeSingle();
 if(roleError){status.textContent='Unable to verify administrator permissions. Please retry.';return}
 if(!role){status.textContent='Access denied: this account does not have administrator privileges.';return}
-status.textContent='Signed in as an authorized administrator.';panel.hidden=false}
+status.textContent='Signed in as an authorized administrator.';panel.hidden=false;await loadReferrals()}
+const allowed=['received','reviewing','contacted','appointment','delivered','closed'];
+async function loadReferrals(){
+ const target=document.getElementById('referralqueue');
+ const {data,error}=await supabase.from('referral_records').select('id,member_id,vehicle_stock,dealership_name,status,created_at').order('created_at',{ascending:false}).limit(100);
+ target.replaceChildren();
+ if(error){target.textContent='Referral queue unavailable. Apply migration 004 to grant admin review permissions.';return}
+ if(!data?.length){target.textContent='No referrals recorded yet. Public buyer intake is not enabled.';return}
+ for(const record of data){
+  const box=document.createElement('div');box.className='card';
+  const details=document.createElement('p');
+  details.textContent=(record.vehicle_stock||'Unspecified vehicle')+' • '+(record.dealership_name||'Dealership pending')+' • '+new Date(record.created_at).toLocaleDateString();
+  const member=document.createElement('p');member.className='muted';member.textContent='Member ID: '+record.member_id;
+  const select=document.createElement('select');
+  select.setAttribute('aria-label','Referral status');
+  for(const value of allowed){const option=document.createElement('option');option.value=value;option.textContent=value;select.append(option)}
+  select.value=record.status;
+  const save=document.createElement('button');save.textContent='Update status';
+  save.onclick=async()=>{save.disabled=true;const {error}=await supabase.from('referral_records').update({status:select.value,updated_at:new Date().toISOString()}).eq('id',record.id);save.disabled=false;status.textContent=error?'Update failed: '+error.message:'Referral status saved.'};
+  box.append(details,member,select,save);target.append(box)
+ }
+}
 document.getElementById('signout').onclick=async()=>{await supabase.auth.signOut();location.href='./member.html'};verify();
 </script></body></html>
