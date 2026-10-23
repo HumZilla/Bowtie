@@ -36,7 +36,7 @@ async function refresh(){
  $('welcome').textContent='Welcome, '+(profile?.display_name||user.email);
  $('membercode').textContent=profile?.member_code||'Profile not ready';
  if(pError)msg('Account is signed in, but member profile is unavailable. Make sure the database migration has been applied.');
- const link=profile?.member_code?location.origin+'/Bowtie/?ref='+encodeURIComponent(profile.member_code):'Unavailable';
+ const link=profile?.member_code?location.origin+location.pathname.replace(/member\.html$/,'index.html')+'#ref='+encodeURIComponent(profile.member_code):'Unavailable';
  $('sharelink').textContent=link;
  $('copylink').onclick=async()=>{try{await navigator.clipboard.writeText(link);msg('Personal link copied. Referral attribution is not yet active.')}catch{msg('Select and copy the link above.')}};
  const {data:records,error:refError}=await supabase.from('referral_records').select('id,vehicle_stock,dealership_name,status,created_at').eq('member_id',user.id).order('created_at',{ascending:false}).limit(50);
