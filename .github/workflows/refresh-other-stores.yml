@@ -1,8 +1,6 @@
 name: Refresh other stores used inventory
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '17 11 * * *'
 permissions:
   contents: write
 jobs:
