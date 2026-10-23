@@ -5,7 +5,7 @@ Requires: pip install requests beautifulsoup4
 """
 import json,re,time,sys
 from pathlib import Path
-from urllib.parse import urljoin,urlparse
+from urllib.parse import urljoin,urlparse,urlencode
 import requests
 from bs4 import BeautifulSoup
 ROOT=Path(__file__).resolve().parents[1]
@@ -78,8 +78,23 @@ def main():
  for store,base in SITES.items():
   links={}
   for suffix in ('/inventory/used','/inventory/new'):
-   html=fetch(base+suffix)
-   if html:links.update(candidates(BeautifulSoup(html,'html.parser'),base))
+   # Walk paginated listings; the first page alone misses much of the inventory.
+   empty_pages=0
+   for page in range(1,16):
+    url=base+suffix+(('?'+urlencode({'page':page})) if page>1 else '')
+    html=fetch(url)
+    if not html:
+     empty_pages+=1
+     if empty_pages>=2:break
+     continue
+    found=candidates(BeautifulSoup(html,'html.parser'),base)
+    before=len(links);links.update(found)
+    added=len(links)-before
+    print(store,suffix,'page',page,'links',len(found),'new VINs',added)
+    if page>1 and added==0:empty_pages+=1
+    else:empty_pages=0
+    if empty_pages>=2:break
+    time.sleep(.2)
   pages[store]=links
   print(store,'VIN-linked listing URLs:',len(links))
  for filename in ('inventory-public.json','inventory-other-stores.json'):
