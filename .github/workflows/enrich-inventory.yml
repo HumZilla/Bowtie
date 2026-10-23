@@ -1,6 +1,8 @@
 name: Enrich Bowtie vehicle details
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '23 8 * * *'
 permissions:
   contents: write
 jobs:
