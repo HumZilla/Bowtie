@@ -20,7 +20,7 @@ label{display:block}#message{min-height:2em}#member{display:none}.code{word-brea
 <label>Password (minimum 8 characters)<input id="password" type="password" autocomplete="new-password" minlength="8" required></label>
 <button type="button" id="join">Create account</button><button type="button" id="login" class="secondary">Sign in</button>
 </form><p class="muted">New members may need to confirm their email before signing in.</p></section>
-<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><h3>My referrals</h3><div id="referrals">No referrals recorded yet.</div><p class="muted">Referral tracking, points and check register are coming next. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
+<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p id="adminaccess"></p><h3>My referrals</h3><div id="referrals">No referrals recorded yet.</div><p class="muted">Referral tracking, points and check register are coming next. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
 <p id="message" role="status" aria-live="polite"></p>
 </main>
 <script type="module">
@@ -36,6 +36,11 @@ async function refresh(){
  $('welcome').textContent='Welcome, '+(profile?.display_name||user.email);
  $('membercode').textContent=profile?.member_code||'Profile not ready';
  if(pError)msg('Account is signed in, but member profile is unavailable. Make sure the database migration has been applied.');
+ const {data:role,error:roleError}=await supabase.from('admin_members').select('user_id').eq('user_id',user.id).maybeSingle();
+ $('adminaccess').replaceChildren();
+ if(role){const a=document.createElement('a');a.href='./admin.html';a.textContent='Open Admin Control Center →';$('adminaccess').append(a)}
+ else if(roleError){$('adminaccess').textContent='Admin permissions could not be checked.'}
+
  const link=profile?.member_code?location.origin+location.pathname.replace(/member\.html$/,'index.html')+'#ref='+encodeURIComponent(profile.member_code):'Unavailable';
  $('sharelink').textContent=link;
  $('copylink').onclick=async()=>{try{await navigator.clipboard.writeText(link);msg('Personal link copied. Referral attribution is not yet active.')}catch{msg('Select and copy the link above.')}};
