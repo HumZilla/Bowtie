@@ -43,7 +43,19 @@ const all=responses.flatMap(r=>r.vehicles||[]),known=new Map((data||[]).map(v=>[
 const daysElapsed=Math.max(0,Math.floor((Date.now()-Date.parse('2026-10-23T00:00:00'))/86400000));
 const rows=all.map(v=>({...v,...known.get(v.vin),estimatedAge:v.store==='Hicks Family Subaru'&&known.get(v.vin)?.days_in_inventory!=null?known.get(v.vin).days_in_inventory+daysElapsed:null})).sort((a,b)=>{const ah=a.store==='Hicks Family Subaru',bh=b.store==='Hicks Family Subaru';return ah!==bh?(ah?-1:1):ah?(b.estimatedAge??-1)-(a.estimatedAge??-1):a.store.localeCompare(b.store)});
 inventoryMsg.textContent=rows.length+' vehicles · Hicks Family Subaru age estimates only · Other dealerships: feature on request';
-for(const v of rows){const line=document.createElement('div');line.style.cssText='padding:10px 0;border-bottom:1px solid #72568b;display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap';const info=document.createElement('span');info.textContent=v.year+' '+v.make+' '+v.model+' '+v.trim+' · '+v.stock+' · '+v.store+' · '+(v.store==='Hicks Family Subaru'?(v.estimatedAge===null?'Age unavailable':v.estimatedAge+' days (est.)'):'Manager-requested features');const btn=document.createElement('button');btn.textContent=v.gold_bowtie?'Remove Gold Bowtie':'🎀 Add Gold Bowtie';btn.onclick=async()=>{btn.disabled=true;const next=!v.gold_bowtie;const {error}=await supabase.from('bowtie_inventory_admin').upsert({vin:v.vin,stock:v.stock,dealership:v.store,days_in_inventory:v.days_in_inventory??null,gold_bowtie:next,updated_at:new Date().toISOString()},{onConflict:'vin'});btn.disabled=false;if(error){inventoryMsg.textContent='Could not save: '+error.message;return}v.gold_bowtie=next;btn.textContent=next?'Remove Gold Bowtie':'🎀 Add Gold Bowtie';inventoryMsg.textContent='Saved. Public showroom featured flag updates when visitors reload.'};line.append(info,btn);inventoryAges.append(line)}
+for(const v of rows){
+const line=document.createElement('div');line.style.cssText='padding:12px 0;border-bottom:1px solid #72568b;display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap';
+const info=document.createElement('div');info.style.cssText='display:flex;flex-direction:column;gap:5px;flex:1;min-width:200px';
+const title=document.createElement('strong');title.textContent=v.year+' '+v.make+' '+v.model+' '+v.trim;
+const meta=document.createElement('span');meta.className='muted';meta.textContent='Stock '+v.stock+' · '+v.store;
+info.append(title,meta);
+const controls=document.createElement('div');controls.style.cssText='display:flex;align-items:center;gap:12px;flex-wrap:wrap';
+if(v.store==='Hicks Family Subaru'){const age=document.createElement('span');age.className='muted';age.style.cssText='font-size:14px;white-space:nowrap';age.textContent=v.estimatedAge===null?'Age unavailable':v.estimatedAge+' days in inventory (est.)';controls.append(age)}
+const label=document.createElement('label');label.style.cssText='display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:700;white-space:nowrap';
+const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=!!v.gold_bowtie;checkbox.setAttribute('aria-label','Gold Bowtie for '+title.textContent+' stock '+v.stock);
+checkbox.onchange=async()=>{checkbox.disabled=true;const next=checkbox.checked;const {error}=await supabase.from('bowtie_inventory_admin').upsert({vin:v.vin,stock:v.stock,dealership:v.store,days_in_inventory:v.days_in_inventory??null,gold_bowtie:next,updated_at:new Date().toISOString()},{onConflict:'vin'});checkbox.disabled=false;if(error){checkbox.checked=!next;inventoryMsg.textContent='Could not save: '+error.message;return}v.gold_bowtie=next;inventoryMsg.textContent='Gold Bowtie saved. Public showroom updates when visitors reload.'};
+label.append(checkbox,document.createTextNode('GOLD'));controls.append(label);line.append(info,controls);inventoryAges.append(line)
+}
 }
 document.getElementById('signout').onclick=async()=>{await supabase.auth.signOut();location.href='./member.html'};verify();
 </script></body></html>
