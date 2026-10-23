@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bowtie Network | Secure Member Access</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,Arial,sans-serif;background:#100b19;color:#f6f1fa}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 85% 10%,#522475 0,transparent 50%),#100b19;min-height:100vh}
+header,main{max-width:840px;margin:auto;padding:22px}header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #755497}
+a{color:#f5ca77}h1{color:#f5ca77}small,.muted{color:#c5b8d2}.card{background:#23162f;border:1px solid #795c93;border-radius:16px;padding:24px;margin:20px 0}
+input,button{font:inherit;padding:13px;border-radius:9px}input{width:100%;background:#130e1a;color:white;border:1px solid #8d75a3;margin:6px 0 16px}
+button{border:0;background:#e9bd66;color:#1a1021;font-weight:700;cursor:pointer;margin:4px 6px 4px 0}
+button.secondary{background:#41265b;color:white;border:1px solid #8d75a3}
+label{display:block}#message{min-height:2em}#member{display:none}.code{word-break:break-all;background:#140f1e;padding:14px;border-radius:8px}
+</style></head><body>
+<header><strong>BOWTIE. <small>ROB POLANCO</small></strong><a href="./index.html">← Back to showroom</a></header>
+<main><h1>Bowtie Member Access</h1><p class="muted">Secure accounts powered by Supabase. Referrals and rewards are not active yet.</p>
+<section class="card" id="guest">
+<h2>Join or sign in</h2><form id="form">
+<label>Name (for new accounts)<input id="name" autocomplete="name" maxlength="80"></label>
+<label>Email<input id="email" type="email" autocomplete="email" required></label>
+<label>Password (minimum 8 characters)<input id="password" type="password" autocomplete="new-password" minlength="8" required></label>
+<button type="button" id="join">Create account</button><button type="button" id="login" class="secondary">Sign in</button>
+</form><p class="muted">New members may need to confirm their email before signing in.</p></section>
+<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p class="muted">Referral tracking, points and check register are coming next. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
+<p id="message" role="status" aria-live="polite"></p>
+</main>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const supabase=createClient('https://uwwzrfijxbvxqvivbudh.supabase.co','sb_publishable_djuaYH0SjmfGBVXKWgbyBQ_1e8uWAbf');
+const $=id=>document.getElementById(id);
+function msg(s){$('message').textContent=s}
+async function refresh(){
+ const {data:{user},error}=await supabase.auth.getUser();
+ if(error||!user){$('guest').style.display='block';$('member').style.display='none';return}
+ const {data:profile,error:pError}=await supabase.from('member_profiles').select('display_name,member_code').eq('user_id',user.id).single();
+ $('guest').style.display='none';$('member').style.display='block';
+ $('welcome').textContent='Welcome, '+(profile?.display_name||user.email);
+ $('membercode').textContent=profile?.member_code||'Profile not ready';
+ if(pError)msg('Account is signed in, but member profile is unavailable. Make sure the database migration has been applied.');
+}
+$('join').onclick=async()=>{const name=$('name').value.trim(),email=$('email').value.trim(),password=$('password').value;if(!name){msg('Enter your name to register.');return}
+ const {error}=await supabase.auth.signUp({email,password,options:{data:{display_name:name},emailRedirectTo:location.origin+location.pathname}});
+ msg(error?error.message:'Registration submitted. Check your email for a confirmation link, if required.');await refresh()};
+$('login').onclick=async()=>{const {error}=await supabase.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});msg(error?error.message:'Signed in.');await refresh()};
+$('signout').onclick=async()=>{await supabase.auth.signOut();msg('Signed out.');await refresh()};
+supabase.auth.onAuthStateChange(()=>{setTimeout(refresh,0)});refresh();
+</script></body></html>
