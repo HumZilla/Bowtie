@@ -36,10 +36,10 @@ async function loadReferrals(){
 
 async function loadTestimonials(){
 const target=document.getElementById('testimonialqueue');
-const {data,error}=await supabase.from('bowtie_testimonials').select('id,display_name,vehicle,story,submitted_at,approved_at,rejected_at').order('submitted_at',{ascending:false}).limit(100);
+const {data,error}=await supabase.from('bowtie_testimonials').select('id,display_name,vehicle,moment_type,story,submitted_at,approved_at,rejected_at').order('submitted_at',{ascending:false}).limit(100);
 target.replaceChildren();if(error){target.textContent='Testimonials unavailable. Apply migration 009: '+error.message;return}
 if(!data?.length){target.textContent='No customer stories submitted yet.';return}
-for(const x of data){const box=document.createElement('div');box.className='card';const name=document.createElement('strong');name.textContent=x.display_name+' · '+x.vehicle;const story=document.createElement('p');story.textContent=x.story;const state=document.createElement('p');state.className='muted';state.textContent=x.approved_at?'Published':x.rejected_at?'Rejected':'Pending review';box.append(name,story,state);
+for(const x of data){const box=document.createElement('div');box.className='card';const name=document.createElement('strong');name.textContent=x.display_name+' · '+(x.vehicle||x.moment_type||'Bowtie moment');const story=document.createElement('p');story.textContent=x.story;const state=document.createElement('p');state.className='muted';state.textContent=x.approved_at?'Published':x.rejected_at?'Rejected':'Pending review';box.append(name,story,state);
 for(const [label,approve] of [['Approve & publish',true],['Reject / unpublish',false]]){const btn=document.createElement('button');btn.textContent=label;btn.style.margin='4px';btn.onclick=async()=>{btn.disabled=true;const {error}=await supabase.rpc('moderate_bowtie_testimonial',{p_id:x.id,p_approve:approve});btn.disabled=false;if(error){state.textContent='Unable to update: '+error.message;return}await loadTestimonials()};box.append(btn)}
 target.append(box)}
 }
