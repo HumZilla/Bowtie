@@ -20,13 +20,15 @@ label{display:block}#message{min-height:2em}#member{display:none}.code{word-brea
 <label>Password (minimum 8 characters)<input id="password" type="password" autocomplete="new-password" minlength="8" required></label>
 <button type="button" id="join">Create account</button><button type="button" id="login" class="secondary">Sign in</button>
 </form><p class="muted">New members may need to confirm their email before signing in.</p></section>
-<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p><a id="inquirylink" href="./inquiry.html">Open direct inquiry link →</a></p><p id="adminaccess"></p><h3>My referrals</h3><div id="referrals">No referrals recorded yet.</div><p class="muted">Referral tracking, points and check register are coming next. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
+<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p><a id="inquirylink" href="./inquiry.html">Open direct inquiry link →</a></p><p id="adminaccess"></p><p id="returnlink"></p><h3>My referrals</h3><div id="referrals">No referrals recorded yet.</div><p class="muted">Referral tracking, points and check register are coming next. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
 <p id="message" role="status" aria-live="polite"></p>
 </main>
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const supabase=createClient('https://uwwzrfijxbvxqvivbudh.supabase.co','sb_publishable_djuaYH0SjmfGBVXKWgbyBQ_1e8uWAbf');
 const $=id=>document.getElementById(id);
+const returnTarget=new URLSearchParams(location.search).get('return');
+const safeReturn=returnTarget&&/^\.\/inquiry\.html(?:#(?:stock|ref)=.*)?$/.test(returnTarget)?returnTarget:null;
 function msg(s){$('message').textContent=s}
 async function refresh(){
  const {data:{user},error}=await supabase.auth.getUser();
@@ -34,6 +36,7 @@ async function refresh(){
  const {data:profile,error:pError}=await supabase.from('member_profiles').select('display_name,member_code').eq('user_id',user.id).single();
  $('guest').style.display='none';$('member').style.display='block';
  $('welcome').textContent='Welcome, '+(profile?.display_name||user.email);
+ $('returnlink').replaceChildren();if(safeReturn){const a=document.createElement('a');a.href=safeReturn;a.textContent='Continue your vehicle inquiry →';$('returnlink').append(a)}
  $('membercode').textContent=profile?.member_code||'Profile not ready';
  if(pError)msg('Account is signed in, but member profile is unavailable. Make sure the database migration has been applied.');
  const {data:role,error:roleError}=await supabase.from('admin_members').select('user_id').eq('user_id',user.id).maybeSingle();
