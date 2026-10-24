@@ -3,6 +3,7 @@ import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
 const sb=createClient('https://uwwzrfijxbvxqvivbudh.supabase.co','sb_publishable_djuaYH0SjmfGBVXKWgbyBQ_1e8uWAbf');
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.hash.slice(1));
 $('ref').value=params.get('ref')||'';$('stock').value=params.get('stock')||'';
+$('loginlink').href='./member.html?return='+encodeURIComponent('./inquiry.html'+location.hash);
 const {data:{user}}=await sb.auth.getUser();
 if(user){$('authstatus').textContent='Signed in as '+user.email;$('loginlink').hidden=true;$('form').hidden=false}
 else{$('authstatus').textContent='Please sign in first. After signing in, return to this inquiry link.'}
