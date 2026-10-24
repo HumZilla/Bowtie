@@ -73,6 +73,15 @@ begin
  if length(trim(coalesce(p_customer_phone,''))) not between 7 and 25 then raise exception 'Enter customer phone'; end if;
  if p_opportunity not in ('trade','upgrade','equity','repair','other') then raise exception 'Select opportunity type'; end if;
  if length(trim(coalesce(p_ro_number,'')))>40 or length(trim(coalesce(p_note,'')))>400 then raise exception 'Input too long'; end if;
+ -- Serialize submissions for this advisor/customer pair to avoid concurrent duplicates.
+ perform pg_advisory_xact_lock(hashtextextended(v_email||':'||trim(p_customer_phone),0));
+ if exists(
+  select 1 from public.bowtie_service_handoffs h
+  where h.advisor_email=v_email and h.rep_email=v_rep
+    and h.customer_phone=trim(p_customer_phone)
+    and coalesce(h.ro_number,'')=coalesce(nullif(trim(p_ro_number),''),'')
+    and h.created_at>now()-interval '24 hours'
+ ) then raise exception 'A matching handoff was already submitted within 24 hours'; end if;
  insert into public.bowtie_service_handoffs(advisor_id,advisor_email,rep_email,customer_name,customer_phone,ro_number,opportunity,note,customer_consent)
  values(auth.uid(),v_email,v_rep,trim(p_customer_name),trim(p_customer_phone),nullif(trim(p_ro_number),''),p_opportunity,nullif(trim(p_note),''),true)
  returning id into v_id;
