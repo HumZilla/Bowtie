@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bowtie | Admin Control Center</title><style>:root{color-scheme:dark;font-family:system-ui;background:#100b19;color:#f5effb}body{margin:0;background:radial-gradient(ellipse at top right,#4a2567,transparent 55%),#100b19;min-height:100vh}main,header{max-width:950px;margin:auto;padding:24px}header{border-bottom:1px solid #76588a;display:flex;justify-content:space-between;align-items:center}a{color:#f1c66e}h1{color:#f1c66e}.card{border:1px solid #72568b;border-radius:16px;background:#23182e;padding:24px;margin:16px 0}.muted{color:#c9b9d7}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}button{padding:12px;border:0;border-radius:8px;background:#eac478;font-weight:bold;cursor:pointer}</style></head><body><header><strong>BOWTIE. / ADMIN</strong><a href="./member.html">← Member dashboard</a></header><main><h1>Bowtie Control Center</h1><p id="status" role="status">Verifying administrator access…</p><section id="panel" hidden><div class="card"><h2>Administrator access verified</h2><p class="muted">This is the protected admin foundation. Live customer records, editing controls, and rewards are not enabled.</p></div><div class="grid"><div class="card"><h3>Members</h3><p>Management coming next. No member directory access yet.</p></div><div class="card"><h3>Referrals</h3><p>Review and update recorded referrals.</p><div id="referralqueue" class="muted">Loading…</div></div><div class="card"><h3>Inventory Aging & Gold Bowtie</h3><p class="muted">Hicks Family Subaru: oldest first, with estimated age. Other dealerships: feature units on request, without aging calculations.</p><p id="inventorymsg" class="muted">Loading inventory…</p><div id="inventoryages" style="overflow-x:auto"></div></div></div><div class="card"><h3>Hicks Family Subaru — Vehicle Inquiry Inbox</h3><p class="muted">New customer inquiries appear here, whether referred or direct. Manually follow up through Hicks Family Subaru systems. Mark contacted only after actual follow-up; this does not transmit a CRM lead.</p><div id="inquiryqueue">Loading…</div></div><div class="card"><h3>Customer Testimonials</h3><p class="muted">Review customer-submitted stories before publication.</p><div id="testimonialqueue">Loading…</div></div><div class="card"><h3>Sales Referral Center</h3><p class="muted">Assign existing referrals to authorized salespeople and review new walk-in referrals or delivery submissions. <a href="./sales.html">Open rep workspace →</a></p><div id="salesqueue">Loading…</div></div><div class="card"><h3>Service → Sales Tracking</h3><p class="muted">Invite-only advisor roster and service handoff accountability. <a href="./service.html">Open advisor workspace →</a></p>
-<form id="advisorForm"><label>Advisor name <input id="advisorName" required maxlength="80"></label> <label>Work email <input id="advisorEmail" type="email" required></label><button type="submit">Authorize advisor</button></form><p id="advisorMessage" role="status"></p><div id="advisorRoster">Loading…</div><h4>Service handoffs</h4><div id="serviceQueue">Loading…</div></div><div class="card"><h3>Rewards</h3><p>Disabled pending legal and dealership compliance approval.</p></div></div><button id="signout">Sign out</button></section></main><script type="module">
+<form id="advisorForm"><label>Advisor name <input id="advisorName" required maxlength="80"></label> <label>Work email <input id="advisorEmail" type="email" required></label><button type="submit">Authorize advisor</button></form><p id="advisorMessage" role="status"></p><div id="advisorRoster">Loading…</div><h4>Service handoffs</h4><div id="serviceQueue">Loading…</div></div><div class="card"><h3>Reward Review &amp; Check Register 🎀</h3><p class="muted">Evidence review only. Proposed points are not earned, payable, redeemable, or a member balance. 1 point = $1 is a proposed Visa gift-card conversion, subject to legal and dealership approval. Cash, checks, and gift-card issuance are LOCKED.</p><div id="rewardqueue">Loading reward reviews…</div><p id="rewardmessage" role="status"></p></div></div><button id="signout">Sign out</button></section></main><script type="module">
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2';
 const supabase=createClient('https://uwwzrfijxbvxqvivbudh.supabase.co','sb_publishable_djuaYH0SjmfGBVXKWgbyBQ_1e8uWAbf');
 const status=document.getElementById('status'),panel=document.getElementById('panel');
@@ -7,7 +7,7 @@ async function verify(){const {data:{user},error}=await supabase.auth.getUser();
 const {data:role,error:roleError}=await supabase.from('admin_members').select('user_id').eq('user_id',user.id).maybeSingle();
 if(roleError){status.textContent='Unable to verify administrator permissions. Please retry.';return}
 if(!role){status.textContent='Access denied: this account does not have administrator privileges.';return}
-status.textContent='Signed in as an authorized administrator.';panel.hidden=false;await Promise.all([loadReferrals(),loadInquiries(),loadInventoryAges(),loadTestimonials(),loadSalesQueue(),loadServiceAdmin()])}
+status.textContent='Signed in as an authorized administrator.';panel.hidden=false;await Promise.all([loadReferrals(),loadInquiries(),loadInventoryAges(),loadTestimonials(),loadSalesQueue(),loadServiceAdmin(),loadRewards()])}
 const allowed=['received','reviewing','contacted','appointment','delivered','closed'];
 async function loadInquiries(){
  const target=document.getElementById('inquiryqueue');target.replaceChildren();
@@ -78,6 +78,37 @@ if(!data?.length){target.textContent='No walk-in or delivery submissions yet.';r
 for(const x of data){const box=document.createElement('div');box.className='card';const head=document.createElement('strong');head.textContent=x.intake_type.toUpperCase()+' · '+x.vehicle_stock+' · '+x.rep_email;const info=document.createElement('p');info.textContent=(x.intake_type==='walkin'?'Customer: '+x.buyer_name+' · Referrer: '+x.referrer_name:'Referral ID: '+x.referral_id+' · Delivery date: '+x.delivery_date);const state=document.createElement('p');state.className='muted';state.textContent='Review status: '+x.review_status;box.append(head,info,state);
 if(x.review_status==='pending')for(const [label,approve] of [['Approve intake',true],['Reject intake',false]]){const btn=document.createElement('button');btn.textContent=label;btn.style.margin='4px';btn.onclick=async()=>{btn.disabled=true;const {error}=await supabase.rpc('bowtie_admin_review_sales_intake',{p_id:x.id,p_approve:approve});btn.disabled=false;if(error){state.textContent='Review failed: '+error.message;return}status.textContent='Intake reviewed. This does not verify a sale or authorize payment.';await loadSalesQueue()};box.append(btn)}
 target.append(box)}
+}
+
+async function loadRewards(){
+ const target=document.getElementById('rewardqueue'),message=document.getElementById('rewardmessage');
+ target.replaceChildren();
+ const {data,error}=await supabase.rpc('bowtie_admin_reward_queue');
+ if(error){target.textContent='Reward register setup pending: apply migration 015. '+error.message;return}
+ if(!data?.length){target.textContent='No tracked referrals to review.';return}
+ for(const x of data){
+  const card=document.createElement('div');card.className='card';
+  const heading=document.createElement('strong');heading.textContent='Stock '+(x.vehicle_stock||'pending')+' · '+x.referral_status+' · '+x.review_state;
+  const note=document.createElement('p');note.className='muted';note.textContent='Referral '+x.referral_id.slice(0,8)+' · '+(x.buyer_inquiry_id?'Tracked Bowtie inquiry':'No tracked Bowtie inquiry — cannot verify');
+  const form=document.createElement('form');
+  const field=(label,name,type,value)=>{const wrap=document.createElement('label');wrap.style.cssText='display:block;margin:10px 0';wrap.textContent=label+' ';const input=document.createElement('input');input.name=name;input.type=type;input.value=value??'';input.style.cssText='max-width:100%;padding:9px;border:1px solid #8b70a1;border-radius:7px;background:#130e1c;color:#fff';wrap.append(input);form.append(wrap);return input};
+  const stock=field('Purchased stock','stock','text',x.purchased_stock||x.vehicle_stock);stock.maxLength=60;stock.required=true;
+  const date=field('Purchase date','date','date',x.purchase_date||'');date.required=true;
+  const points=field('Proposed points (NOT awarded)','points','number',x.proposed_points||0);points.min=0;points.max=100000;points.step=1;points.required=true;
+  for(const [key,label] of [['crm','Hicks CRM lead/source verified'],['delivery','DMS vehicle delivery verified'],['manager','Manager verification completed']]){
+   const wrap=document.createElement('label');wrap.style.cssText='display:block;margin:9px 0';const box=document.createElement('input');box.type='checkbox';box.name=key;box.checked=key==='crm'?x.crm_lead_verified:key==='delivery'?x.delivery_verified:x.manager_verified;wrap.append(box,document.createTextNode(' '+label));form.append(wrap);
+  }
+  const state=document.createElement('select');state.name='state';state.style.cssText='padding:10px;background:#130e1c;color:white;border:1px solid #8b70a1;border-radius:8px';
+  for(const [value,label] of [['evidence_pending','Evidence pending'],['verified_for_compliance','Verified for compliance review (NO award)'],['rejected','Rejected']])state.append(new Option(label,value));
+  state.value=x.review_state==='not_started'?'evidence_pending':x.review_state;form.append(state);
+  const reviewNote=field('Review note','note','text',x.review_note);reviewNote.maxLength=1000;
+  const button=document.createElement('button');button.type='submit';button.textContent='Save evidence review';form.append(button);
+  form.onsubmit=async e=>{e.preventDefault();button.disabled=true;message.textContent='Saving evidence review…';
+   const {error}=await supabase.rpc('bowtie_admin_review_reward',{p_referral_id:x.referral_id,p_purchased_stock:stock.value.trim(),p_purchase_date:date.value,p_crm_lead_verified:form.elements.crm.checked,p_delivery_verified:form.elements.delivery.checked,p_manager_verified:form.elements.manager.checked,p_proposed_points:Number(points.value),p_review_state:state.value,p_review_note:reviewNote.value.trim()});
+   button.disabled=false;message.textContent=error?'Unable to save: '+error.message:'Evidence review saved. No points, gift cards or payments issued.';if(!error)await loadRewards();
+  };
+  card.append(heading,note,form);target.append(card);
+ }
 }
 async function loadTestimonials(){
 const target=document.getElementById('testimonialqueue');
