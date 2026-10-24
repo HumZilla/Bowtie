@@ -20,7 +20,7 @@ label{display:block}#message{min-height:2em}#member{display:none}.code{word-brea
 <label>Password (minimum 8 characters)<input id="password" type="password" autocomplete="new-password" minlength="8" required></label>
 <button type="button" id="join">Create account</button><button type="button" id="login" class="secondary">Sign in</button>
 </form><p class="muted">New members may need to confirm their email before signing in.</p></section>
-<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p><a id="inquirylink" href="./inquiry.html">Open direct inquiry link →</a></p><p id="adminaccess"></p><p id="returnlink"></p><h3>My referrals</h3><div id="referrals">No referrals recorded yet.</div><p class="muted">Submitted Bowtie inquiries associated with your member code appear here after the customer completes the secure form. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
+<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p><a id="inquirylink" href="./inquiry.html">Open direct inquiry link →</a></p><p id="adminaccess"></p><p id="returnlink"></p><h3>My reward review status</h3><p class="muted">Proposed conversion: 1 point = $1 toward Visa gift cards, subject to approval. All point balances, redemption, gift cards and payments are currently LOCKED. Verification is not a reward authorization.</p><div id="rewardstatus">Loading…</div><h3>My referrals</h3><div id="referrals">No referrals recorded yet.</div><p class="muted">Submitted Bowtie inquiries associated with your member code appear here after the customer completes the secure form. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
 <p id="message" role="status" aria-live="polite"></p>
 </main>
 <script type="module">
@@ -48,6 +48,12 @@ async function refresh(){
  $('sharelink').textContent=link;
  $('inquirylink').href='./inquiry.html#ref='+encodeURIComponent(profile?.member_code||'');
  $('copylink').onclick=async()=>{try{await navigator.clipboard.writeText(link);msg('Personal Bowtie referral link copied.')}catch{msg('Select and copy the link above.')}};
+ const {data:rewardRows,error:rewardError}=await supabase.rpc('bowtie_member_reward_status');
+ $('rewardstatus').replaceChildren();
+ if(rewardError){$('rewardstatus').textContent='Reward review status unavailable until migration 015 is applied.'}
+ else if(!rewardRows?.length){$('rewardstatus').textContent='No qualifying inquiry submissions yet. Available points: 0 (rewards locked).'}
+ else {const total=document.createElement('p');total.textContent='Available points: 0 · Redemptions: LOCKED · Reviews: '+rewardRows.length;$('rewardstatus').append(total);
+  for(const item of rewardRows){const row=document.createElement('p');row.textContent=(item.vehicle_stock||'Vehicle')+' · Referral: '+item.referral_status+' · Reward review: '+item.review_state+(item.review_state==='verified_for_compliance'?' · Proposed '+item.proposed_points+' points (NOT awarded)':'');$('rewardstatus').append(row)}}
  const {data:records,error:refError}=await supabase.from('referral_records').select('id,vehicle_stock,dealership_name,status,created_at').eq('member_id',user.id).order('created_at',{ascending:false}).limit(50);
  $('referrals').replaceChildren();
  if(refError){$('referrals').textContent='Referral history is not available until the second database migration is installed.'}
