@@ -56,7 +56,7 @@ async function refresh(){
 
 }
 $('join').onclick=async()=>{const name=$('name').value.trim(),email=$('email').value.trim(),password=$('password').value;if(!name){msg('Enter your name to register.');return}
- const {error}=await supabase.auth.signUp({email,password,options:{data:{display_name:name},emailRedirectTo:location.origin+location.pathname}});
+ const {error}=await supabase.auth.signUp({email,password,options:{data:{display_name:name},emailRedirectTo:location.origin+location.pathname+location.search}});
  msg(error?error.message:'Registration submitted. Check your email for a confirmation link, if required.');await refresh()};
 $('login').onclick=async()=>{const {error}=await supabase.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});msg(error?error.message:'Signed in.');await refresh()};
 $('signout').onclick=async()=>{await supabase.auth.signOut();msg('Signed out.');await refresh()};
