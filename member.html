@@ -12,7 +12,7 @@ button.secondary{background:#41265b;color:white;border:1px solid #8d75a3}
 label{display:block}#message{min-height:2em}#member{display:none}.code{word-break:break-all;background:#140f1e;padding:14px;border-radius:8px}
 </style></head><body>
 <header><strong>BOWTIE. <small>ROB POLANCO</small></strong><a href="./index.html">← Back to showroom</a></header>
-<main><h1>Bowtie Member Access</h1><p class="muted">Secure accounts powered by Supabase. Referrals and rewards are not active yet.</p>
+<main><h1>Bowtie Member Access</h1><p class="muted">Secure accounts powered by Supabase. Vehicle inquiries can be attributed to member codes; referral rewards remain disabled.</p>
 <section class="card" id="guest">
 <h2>Join or sign in</h2><form id="form">
 <label>Name (for new accounts)<input id="name" autocomplete="name" maxlength="80"></label>
@@ -20,7 +20,7 @@ label{display:block}#message{min-height:2em}#member{display:none}.code{word-brea
 <label>Password (minimum 8 characters)<input id="password" type="password" autocomplete="new-password" minlength="8" required></label>
 <button type="button" id="join">Create account</button><button type="button" id="login" class="secondary">Sign in</button>
 </form><p class="muted">New members may need to confirm their email before signing in.</p></section>
-<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p><a id="inquirylink" href="./inquiry.html">Open direct inquiry link →</a></p><p id="adminaccess"></p><p id="returnlink"></p><h3>My referrals</h3><div id="referrals">No referrals recorded yet.</div><p class="muted">Referral tracking, points and check register are coming next. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
+<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p><a id="inquirylink" href="./inquiry.html">Open direct inquiry link →</a></p><p id="adminaccess"></p><p id="returnlink"></p><h3>My referrals</h3><div id="referrals">No referrals recorded yet.</div><p class="muted">Submitted Bowtie inquiries associated with your member code appear here after the customer completes the secure form. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
 <p id="message" role="status" aria-live="polite"></p>
 </main>
 <script type="module">
@@ -47,11 +47,11 @@ async function refresh(){
  const link=profile?.member_code?location.origin+location.pathname.replace(/member\.html$/,'index.html')+'#ref='+encodeURIComponent(profile.member_code):'Unavailable';
  $('sharelink').textContent=link;
  $('inquirylink').href='./inquiry.html#ref='+encodeURIComponent(profile?.member_code||'');
- $('copylink').onclick=async()=>{try{await navigator.clipboard.writeText(link);msg('Personal link copied. Referral attribution is not yet active.')}catch{msg('Select and copy the link above.')}};
+ $('copylink').onclick=async()=>{try{await navigator.clipboard.writeText(link);msg('Personal Bowtie referral link copied.')}catch{msg('Select and copy the link above.')}};
  const {data:records,error:refError}=await supabase.from('referral_records').select('id,vehicle_stock,dealership_name,status,created_at').eq('member_id',user.id).order('created_at',{ascending:false}).limit(50);
  $('referrals').replaceChildren();
  if(refError){$('referrals').textContent='Referral history is not available until the second database migration is installed.'}
- else if(!records?.length){$('referrals').textContent='No referrals recorded yet. Tracking is not active.'}
+ else if(!records?.length){$('referrals').textContent='No submitted inquiries attributed to your code yet.'}
  else for(const row of records){const p=document.createElement('p');p.textContent=(row.vehicle_stock||'Vehicle')+' • '+row.status+' • '+new Date(row.created_at).toLocaleDateString();$('referrals').append(p)}
 
 }
