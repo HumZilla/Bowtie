@@ -47,8 +47,7 @@ def main():
   url=ROOT+"?"+urllib.parse.urlencode(dict(inproduction="true",instock="true",intransit="true",page=page,paymenttype="cash"))
   try: items=parse_page(read(url))
   except Exception as e:
-   if page==1:raise
-   print("Stopping at page",page,str(e));break
+   raise RuntimeError(f"Inventory page {page} failed; preserving previous snapshot") from e
   print("Page",page,"found",len(items))
   if not items:break
   before=len(vehicles)
@@ -56,6 +55,15 @@ def main():
   if page>1 and len(vehicles)==before:break
   time.sleep(1)
  if len(vehicles)<20:raise RuntimeError("Insufficient listings; preserving previous snapshot")
+ previous=json.loads(Path("inventory-other-stores.json").read_text())
+ old={v.get("vin","").upper():v for v in previous.get("vehicles",[])}
+ if len(vehicles)<len(old)*0.6:raise RuntimeError("Large inventory drop; preserving previous snapshot")
+ for vin,v in vehicles.items():
+  prior=old.get(vin,{})
+  if prior.get("store")==v.get("store") and prior.get("stock")==v.get("stock"):
+   for key in ("photo","price","miles","lastVerified"):
+    if prior.get(key) is not None and (key not in v or v[key] in ("",0,None)):
+     v[key]=prior[key]
  output={"source":"Hicks Auto Group public used-inventory pages (not a live availability guarantee)","checkedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"vehicles":list(vehicles.values())}
  Path("inventory-other-stores.json").write_text(json.dumps(output,ensure_ascii=False,separators=(",",":"))+"\n")
  print("Published",len(vehicles),"unique VINs")
