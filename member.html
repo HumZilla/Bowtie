@@ -12,7 +12,7 @@ button.secondary{background:#41265b;color:white;border:1px solid #8d75a3}
 label{display:block}#message{min-height:2em}#member{display:none}.code{word-break:break-all;background:#140f1e;padding:14px;border-radius:8px}
 .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.stat{padding:17px;border:1px solid #795c93;background:#170e22;border-radius:14px}.stat strong{display:block;font-size:27px;color:#f5ca77;margin-top:7px}.refcard{border:1px solid #73578a;background:#170e22;border-radius:14px;padding:18px;margin:14px 0}.refhead{display:flex;align-items:start;justify-content:space-between;gap:12px;flex-wrap:wrap}.pill{background:#432c58;border:1px solid #795c93;border-radius:20px;padding:6px 10px;font-size:12px;font-weight:700}.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin:16px 0}.step{font-size:11px;text-align:center;color:#b8a5c7;border-top:4px solid #513c64;padding-top:9px}.step.done{color:#f5ca77;border-color:#e9bd66}.step.current{color:#fff;border-color:#a87aff}.refactions{display:flex;gap:8px;flex-wrap:wrap}.refactions button,.refactions a{display:inline-block;text-decoration:none;border-radius:9px;padding:10px 12px;font-size:13px}.note{font-size:13px;line-height:1.55;color:#c5b8d2}.reward{font-size:20px;font-weight:800;color:#f5ca77}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}@media(max-width:600px){.stats{grid-template-columns:1fr}.steps{gap:3px}.step{font-size:9px}.card{padding:16px}} </style></head><body>
 <header><strong>BOWTIE. <small>ROB POLANCO</small></strong><a href="./index.html">← Back to showroom</a></header>
-<main><h1>Bowtie Member Access</h1><p class="muted">Secure accounts powered by Supabase. Vehicle inquiries can be attributed to member codes; referral rewards remain disabled.</p>
+<main><h1>Bowtie Member Access</h1><p class="muted">Secure accounts powered by Supabase. Vehicle inquiries can be attributed to member codes. Track your rewards below.</p>
 <section class="card" id="guest">
 <h2>Join or sign in</h2><form id="form">
 <label>Name (for new accounts)<input id="name" autocomplete="name" maxlength="80"></label>
@@ -48,7 +48,7 @@ async function refresh(){
  $('sharelink').textContent=link;
  $('inquirylink').href='./inquiry.html#ref='+encodeURIComponent(profile?.member_code||'');
  $('copylink').onclick=async()=>{try{await navigator.clipboard.writeText(link);msg('Personal Bowtie referral link copied.')}catch{msg('Select and copy the link above.')}};
- const {data:rewardRows,error:rewardError}=await supabase.rpc('bowtie_member_reward_status');
+ const {data:rewardRows,error:rewardError}=await supabase.rpc('bowtie_my_rewards');
  const {data:records,error:refError}=await supabase.from('referral_records').select('id,vehicle_stock,dealership_name,status,created_at').eq('member_id',user.id).order('created_at',{ascending:false}).limit(50);
  $('referrals').replaceChildren();$('rewardstatus').replaceChildren();$('refstats').replaceChildren();
  if(refError){$('referrals').textContent='Referral progress is temporarily unavailable.';return}
@@ -56,8 +56,8 @@ async function refresh(){
  const stages=['received','contacted','appointment','delivered','approved'];
  const stageNames=['Received','Contacted','Appointment','Purchased','Approved'];
  const stageIndex=status=>({received:0,reviewing:0,contacted:1,appointment:2,delivered:3,closed:-1})[status]??0;
- const approved=records.filter(x=>rewardMap.get(x.id)?.review_state==='verified_for_compliance');
- const potential=records.reduce((sum,x)=>sum+(Number(rewardMap.get(x.id)?.proposed_points)||0),0);
+ const approved=records.filter(x=>['earned','paid'].includes(rewardMap.get(x.id)?.status));
+ const potential=records.reduce((sum,x)=>sum+(Number(rewardMap.get(x.id)?.amount)||0),0);
  for(const [label,value] of [['Tracked referrals',records.length],['Purchases reported',records.filter(x=>x.status==='delivered').length],['Proposed value',potential?'$'+potential:'Pending']]){
   const stat=document.createElement('div');stat.className='stat';const title=document.createElement('span');title.className='note';title.textContent=label;const num=document.createElement('strong');num.textContent=value;stat.append(title,num);$('refstats').append(stat);
  }
@@ -66,16 +66,16 @@ async function refresh(){
  const stockMap=new Map(inventory.flatMap(d=>d.vehicles||[]).filter(v=>v.stock).map(v=>[String(v.stock).trim().toUpperCase(),v]));
  if(!records.length)$('referrals').textContent='No referrals yet. Share your personal link above to get started.';
  for(const item of records){
-  const review=rewardMap.get(item.id),closed=item.status==='closed',verified=review?.review_state==='verified_for_compliance';
+  const review=rewardMap.get(item.id),closed=item.status==='closed',verified=['earned','paid'].includes(review?.status);
   const progress=verified?4:stageIndex(item.status);
   const card=document.createElement('article');card.className='refcard';
   const top=document.createElement('div');top.className='refhead';
   const name=document.createElement('div');const title=document.createElement('strong');title.textContent='Stock '+(item.vehicle_stock||'Not specified');const when=document.createElement('div');when.className='note';when.textContent='Submitted '+new Date(item.created_at).toLocaleDateString()+' · '+(item.dealership_name||'Bowtie Network');name.append(title,when);
-  const pill=document.createElement('span');pill.className='pill';pill.textContent=closed?'Closed':verified?'Reward reviewed':item.status==='delivered'?'Purchase reported':item.status==='reviewing'?'Under review':item.status==='received'?'Received':item.status==='appointment'?'Appointment':'Contacted';top.append(name,pill);card.append(top);
+  const pill=document.createElement('span');pill.className='pill';pill.textContent=closed?'Closed':verified?(review.status==='paid'?'Paid':'Earned'):item.status==='delivered'?'Purchase reported':item.status==='reviewing'?'Under review':item.status==='received'?'Received':item.status==='appointment'?'Appointment':'Contacted';top.append(name,pill);card.append(top);
   const steps=document.createElement('div');steps.className='steps';steps.setAttribute('aria-label','Referral milestone progress');
   stages.forEach((stage,i)=>{const cell=document.createElement('div');cell.className='step'+(!closed&&i<=progress?' done':'')+(!closed&&i===progress?' current':'');cell.textContent=stageNames[i];steps.append(cell)});card.append(steps);
-  const detail=document.createElement('p');detail.className='note';detail.textContent=closed?'This referral is closed. No reward has been confirmed.':verified?'The dealership completed its reward evidence review. Fulfillment is handled separately.':item.status==='delivered'?'A purchase was reported. Reward verification is still pending.':item.status==='appointment'?'An appointment milestone was reported. Encourage your friend only if they welcome a reminder.':'Your referral is in progress. Share helpful vehicle information without pressuring the buyer.';card.append(detail);
-  if(review?.proposed_points>0){const value=document.createElement('div');value.className='reward';value.textContent=review.proposed_points+' points · $'+review.proposed_points+' proposed';card.append(value)}
+  const detail=document.createElement('p');detail.className='note';detail.textContent=closed?'This referral is closed. No reward has been confirmed.':verified?(review.status==='paid'?'The dealership recorded this reward as paid.':'Your reward is earned. The dealership handles fulfillment.'):item.status==='delivered'?'A purchase was reported. Reward verification is still pending.':item.status==='appointment'?'An appointment milestone was reported. Encourage your friend only if they welcome a reminder.':'Your referral is in progress. Share helpful vehicle information without pressuring the buyer.';card.append(detail);
+  if(review?.amount>0){const value=document.createElement('div');value.className='reward';value.textContent=review.tier.toUpperCase()+' BOW · '+review.amount+' points · $'+review.amount+' · '+(review.status==='pending'?'Pending qualifying sale':review.status==='earned'?'Earned — awaiting fulfillment':review.status==='paid'?'Paid':'Cancelled');card.append(value)}
   else {const value=document.createElement('p');value.className='note';value.textContent='Reward tier/value pending verified submission-time inventory data.';card.append(value)}
   const actions=document.createElement('div');actions.className='refactions';
   const vehicle=stockMap.get(String(item.vehicle_stock||'').trim().toUpperCase());
@@ -85,7 +85,7 @@ async function refresh(){
  }
  if(rewardError){$('rewardstatus').textContent='Reward review data is not available yet. No reward amount is confirmed.'}
  else if(!records.length){$('rewardstatus').textContent='No reward reviews yet.'}
- else {const summary=document.createElement('p');summary.textContent=approved.length+' reviewed for compliance · '+records.length+' tracked referrals. No payment or redemption is issued here.';$('rewardstatus').append(summary)}
+ else {const summary=document.createElement('p');summary.textContent=approved.length+' earned or paid · '+records.length+' tracked referrals. Fulfillment is handled by the dealership.';$('rewardstatus').append(summary)}
 
 
 }
