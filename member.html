@@ -4,13 +4,13 @@
 <style>
 :root{color-scheme:dark;font-family:system-ui,Arial,sans-serif;background:#100b19;color:#f6f1fa}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 85% 10%,#522475 0,transparent 50%),#100b19;min-height:100vh}
-header,main{max-width:840px;margin:auto;padding:22px}header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #755497}
+header,main{max-width:1040px;margin:auto;padding:22px}header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #755497}
 a{color:#f5ca77}h1{color:#f5ca77}small,.muted{color:#c5b8d2}.card{background:#23162f;border:1px solid #795c93;border-radius:16px;padding:24px;margin:20px 0}
 input,button{font:inherit;padding:13px;border-radius:9px}input{width:100%;background:#130e1a;color:white;border:1px solid #8d75a3;margin:6px 0 16px}
 button{border:0;background:#e9bd66;color:#1a1021;font-weight:700;cursor:pointer;margin:4px 6px 4px 0}
 button.secondary{background:#41265b;color:white;border:1px solid #8d75a3}
 label{display:block}#message{min-height:2em}#member{display:none}.code{word-break:break-all;background:#140f1e;padding:14px;border-radius:8px}
-</style></head><body>
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.stat{padding:17px;border:1px solid #795c93;background:#170e22;border-radius:14px}.stat strong{display:block;font-size:27px;color:#f5ca77;margin-top:7px}.refcard{border:1px solid #73578a;background:#170e22;border-radius:14px;padding:18px;margin:14px 0}.refhead{display:flex;align-items:start;justify-content:space-between;gap:12px;flex-wrap:wrap}.pill{background:#432c58;border:1px solid #795c93;border-radius:20px;padding:6px 10px;font-size:12px;font-weight:700}.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin:16px 0}.step{font-size:11px;text-align:center;color:#b8a5c7;border-top:4px solid #513c64;padding-top:9px}.step.done{color:#f5ca77;border-color:#e9bd66}.step.current{color:#fff;border-color:#a87aff}.refactions{display:flex;gap:8px;flex-wrap:wrap}.refactions button,.refactions a{display:inline-block;text-decoration:none;border-radius:9px;padding:10px 12px;font-size:13px}.note{font-size:13px;line-height:1.55;color:#c5b8d2}.reward{font-size:20px;font-weight:800;color:#f5ca77}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}@media(max-width:600px){.stats{grid-template-columns:1fr}.steps{gap:3px}.step{font-size:9px}.card{padding:16px}} </style></head><body>
 <header><strong>BOWTIE. <small>ROB POLANCO</small></strong><a href="./index.html">← Back to showroom</a></header>
 <main><h1>Bowtie Member Access</h1><p class="muted">Secure accounts powered by Supabase. Vehicle inquiries can be attributed to member codes; referral rewards remain disabled.</p>
 <section class="card" id="guest">
@@ -20,7 +20,7 @@ label{display:block}#message{min-height:2em}#member{display:none}.code{word-brea
 <label>Password (minimum 8 characters)<input id="password" type="password" autocomplete="new-password" minlength="8" required></label>
 <button type="button" id="join">Create account</button><button type="button" id="login" class="secondary">Sign in</button>
 </form><p class="muted">New members may need to confirm their email before signing in.</p></section>
-<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p><a id="inquirylink" href="./inquiry.html">Open direct inquiry link →</a></p><p id="adminaccess"></p><p id="returnlink"></p><h3>My reward review status</h3><p class="muted">Rewards are not active. No points have been awarded, and gift card redemption and payments are locked pending approval. A review does not guarantee a future reward.</p><div id="rewardstatus">Loading…</div><h3>My referrals</h3><div id="referrals">No referrals recorded yet.</div><p class="muted">Submitted Bowtie inquiries associated with your member code appear here after the customer completes the secure form. No payments or points are currently enabled.</p><button id="signout" class="secondary">Sign out</button></section>
+<section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p><a id="inquirylink" href="./inquiry.html">Open direct inquiry link →</a></p><p id="adminaccess"></p><p id="returnlink"></p><h2>Your referrals. Your progress. 🎀</h2><p class="muted">See milestones, share vehicles and track potential rewards. Your friend controls their buying decision; only dealership-confirmed milestones appear here.</p><div class="stats" id="refstats" aria-label="Referral overview"></div><h3>Referral progress</h3><div id="referrals" aria-live="polite">Loading referrals…</div><h3>Reward review</h3><p class="note">Potential values are not earned or payable until a qualifying purchase is verified and approved. The dealership handles fulfillment; no payments are issued through Bowtie.</p><div id="rewardstatus">Loading…</div><p class="note">Privacy first: no buyer names, contact details, financing information, deal terms, or private messages are shown to referrers. Status updates may be delayed. Please follow up only with people who welcome it, and never promise approval, financing, or a reward.</p><button id="signout" class="secondary">Sign out</button></section>
 <p id="message" role="status" aria-live="polite"></p>
 </main>
 <script type="module">
@@ -49,16 +49,44 @@ async function refresh(){
  $('inquirylink').href='./inquiry.html#ref='+encodeURIComponent(profile?.member_code||'');
  $('copylink').onclick=async()=>{try{await navigator.clipboard.writeText(link);msg('Personal Bowtie referral link copied.')}catch{msg('Select and copy the link above.')}};
  const {data:rewardRows,error:rewardError}=await supabase.rpc('bowtie_member_reward_status');
- $('rewardstatus').replaceChildren();
- if(rewardError){$('rewardstatus').textContent='Reward review status unavailable until migration 015 is applied.'}
- else if(!rewardRows?.length){$('rewardstatus').textContent='No qualifying inquiry submissions yet. Available points: 0 (rewards locked).'}
- else {const total=document.createElement('p');total.textContent='Available points: 0 · Redemptions: LOCKED · Reviews: '+rewardRows.length;$('rewardstatus').append(total);
-  for(const item of rewardRows){const row=document.createElement('p');row.textContent=(item.vehicle_stock||'Vehicle')+' · Referral: '+item.referral_status+' · Reward review: '+item.review_state+(item.review_state==='verified_for_compliance'?' · Reviewed; no points awarded':'');$('rewardstatus').append(row)}}
  const {data:records,error:refError}=await supabase.from('referral_records').select('id,vehicle_stock,dealership_name,status,created_at').eq('member_id',user.id).order('created_at',{ascending:false}).limit(50);
- $('referrals').replaceChildren();
- if(refError){$('referrals').textContent='Referral history is not available until the second database migration is installed.'}
- else if(!records?.length){$('referrals').textContent='No submitted inquiries attributed to your code yet.'}
- else for(const row of records){const p=document.createElement('p');p.textContent=(row.vehicle_stock||'Vehicle')+' • '+row.status+' • '+new Date(row.created_at).toLocaleDateString();$('referrals').append(p)}
+ $('referrals').replaceChildren();$('rewardstatus').replaceChildren();$('refstats').replaceChildren();
+ if(refError){$('referrals').textContent='Referral progress is temporarily unavailable.';return}
+ const rewardMap=new Map((rewardRows||[]).map(x=>[x.referral_id,x]));
+ const stages=['received','contacted','appointment','delivered','approved'];
+ const stageNames=['Received','Contacted','Appointment','Purchased','Approved'];
+ const stageIndex=status=>({received:0,reviewing:0,contacted:1,appointment:2,delivered:3,closed:-1})[status]??0;
+ const approved=records.filter(x=>rewardMap.get(x.id)?.review_state==='verified_for_compliance');
+ const potential=records.reduce((sum,x)=>sum+(Number(rewardMap.get(x.id)?.proposed_points)||0),0);
+ for(const [label,value] of [['Tracked referrals',records.length],['Purchases reported',records.filter(x=>x.status==='delivered').length],['Proposed value',potential?'$'+potential:'Pending']]){
+  const stat=document.createElement('div');stat.className='stat';const title=document.createElement('span');title.className='note';title.textContent=label;const num=document.createElement('strong');num.textContent=value;stat.append(title,num);$('refstats').append(stat);
+ }
+ const copy=async(value,success)=>{try{await navigator.clipboard.writeText(value);msg(success)}catch{msg('Copy is unavailable on this device. You can share your personal link above.')}};
+ const inventory=await Promise.all(['./inventory-public.json','./inventory-other-stores.json'].map(url=>fetch(url).then(r=>r.ok?r.json():{vehicles:[]}).catch(()=>({vehicles:[]}))));
+ const stockMap=new Map(inventory.flatMap(d=>d.vehicles||[]).filter(v=>v.stock).map(v=>[String(v.stock).trim().toUpperCase(),v]));
+ if(!records.length)$('referrals').textContent='No referrals yet. Share your personal link above to get started.';
+ for(const item of records){
+  const review=rewardMap.get(item.id),closed=item.status==='closed',verified=review?.review_state==='verified_for_compliance';
+  const progress=verified?4:stageIndex(item.status);
+  const card=document.createElement('article');card.className='refcard';
+  const top=document.createElement('div');top.className='refhead';
+  const name=document.createElement('div');const title=document.createElement('strong');title.textContent='Stock '+(item.vehicle_stock||'Not specified');const when=document.createElement('div');when.className='note';when.textContent='Submitted '+new Date(item.created_at).toLocaleDateString()+' · '+(item.dealership_name||'Bowtie Network');name.append(title,when);
+  const pill=document.createElement('span');pill.className='pill';pill.textContent=closed?'Closed':verified?'Reward reviewed':item.status==='delivered'?'Purchase reported':item.status==='reviewing'?'Under review':item.status==='received'?'Received':item.status==='appointment'?'Appointment':'Contacted';top.append(name,pill);card.append(top);
+  const steps=document.createElement('div');steps.className='steps';steps.setAttribute('aria-label','Referral milestone progress');
+  stages.forEach((stage,i)=>{const cell=document.createElement('div');cell.className='step'+(!closed&&i<=progress?' done':'')+(!closed&&i===progress?' current':'');cell.textContent=stageNames[i];steps.append(cell)});card.append(steps);
+  const detail=document.createElement('p');detail.className='note';detail.textContent=closed?'This referral is closed. No reward has been confirmed.':verified?'The dealership completed its reward evidence review. Fulfillment is handled separately.':item.status==='delivered'?'A purchase was reported. Reward verification is still pending.':item.status==='appointment'?'An appointment milestone was reported. Encourage your friend only if they welcome a reminder.':'Your referral is in progress. Share helpful vehicle information without pressuring the buyer.';card.append(detail);
+  if(review?.proposed_points>0){const value=document.createElement('div');value.className='reward';value.textContent=review.proposed_points+' points · $'+review.proposed_points+' proposed';card.append(value)}
+  else {const value=document.createElement('p');value.className='note';value.textContent='Reward tier/value pending verified submission-time inventory data.';card.append(value)}
+  const actions=document.createElement('div');actions.className='refactions';
+  const vehicle=stockMap.get(String(item.vehicle_stock||'').trim().toUpperCase());
+  if(vehicle?.vin&&profile?.member_code){const url=location.origin+location.pathname.replace(/member\.html$/,'index.html')+'#vehicle='+encodeURIComponent(vehicle.vin)+'&ref='+encodeURIComponent(profile.member_code);
+   const linkButton=document.createElement('button');linkButton.type='button';linkButton.textContent='Copy vehicle link';linkButton.onclick=()=>copy(url,'Vehicle link copied. Share only with your friend’s permission.');actions.append(linkButton)}
+  const follow=document.createElement('button');follow.type='button';follow.className='secondary';follow.textContent='Copy friendly check-in';follow.onclick=()=>copy('Hey! Just checking whether you had any questions about the vehicle I shared. No pressure at all—happy to help if you need anything.','Friendly, no-pressure check-in copied.');actions.append(follow);card.append(actions);$('referrals').append(card);
+ }
+ if(rewardError){$('rewardstatus').textContent='Reward review data is not available yet. No reward amount is confirmed.'}
+ else if(!records.length){$('rewardstatus').textContent='No reward reviews yet.'}
+ else {const summary=document.createElement('p');summary.textContent=approved.length+' reviewed for compliance · '+records.length+' tracked referrals. No payment or redemption is issued here.';$('rewardstatus').append(summary)}
+
 
 }
 $('join').onclick=async()=>{const name=$('name').value.trim(),email=$('email').value.trim(),password=$('password').value;if(!name){msg('Enter your name to register.');return}
