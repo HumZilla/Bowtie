@@ -52,8 +52,9 @@ def main():
   if not items:break
   before=len(vehicles)
   for v in items:vehicles[v["vin"]]=v
-  if page>1 and len(vehicles)==before:break
+  if page>1 and len(vehicles)==before:raise RuntimeError("Repeated page; preserving previous snapshot")
   time.sleep(1)
+ else: raise RuntimeError("Pagination limit reached; preserving previous snapshot")
  if len(vehicles)<20:raise RuntimeError("Insufficient listings; preserving previous snapshot")
  previous=json.loads(Path("inventory-other-stores.json").read_text())
  old={v.get("vin","").upper():v for v in previous.get("vehicles",[])}
@@ -61,7 +62,7 @@ def main():
  for vin,v in vehicles.items():
   prior=old.get(vin,{})
   if prior.get("store")==v.get("store") and prior.get("stock")==v.get("stock"):
-   for key in ("photo","price","miles","lastVerified"):
+   for key in ("photo","miles"):
     if prior.get(key) is not None and (key not in v or v[key] in ("",0,None)):
      v[key]=prior[key]
  output={"source":"Hicks Auto Group public used-inventory pages (not a live availability guarantee)","checkedAt":time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),"vehicles":list(vehicles.values())}
