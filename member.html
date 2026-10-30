@@ -62,7 +62,7 @@ async function refresh(){
   const stat=document.createElement('div');stat.className='stat';const title=document.createElement('span');title.className='note';title.textContent=label;const num=document.createElement('strong');num.textContent=value;stat.append(title,num);$('refstats').append(stat);
  }
  const copy=async(value,success)=>{try{await navigator.clipboard.writeText(value);msg(success)}catch{msg('Copy is unavailable on this device. You can share your personal link above.')}};
- const inventory=await Promise.all(['./inventory-public.json','./inventory-other-stores.json'].map(url=>fetch(url).then(r=>r.ok?r.json():{vehicles:[]}).catch(()=>({vehicles:[]}))));
+ const inventory=await Promise.all(['./inventory-public.json','./inventory-other-stores.json'].map(url=>fetch(url+'?snapshot=20261030-1051',{cache:'no-store'}).then(r=>r.ok?r.json():{vehicles:[]}).catch(()=>({vehicles:[]}))));
  const stockMap=new Map(inventory.flatMap(d=>d.vehicles||[]).filter(v=>v.stock).map(v=>[String(v.stock).trim().toUpperCase(),v]));
  if(!records.length)$('referrals').textContent='No referrals yet. Share your personal link above to get started.';
  for(const item of records){
