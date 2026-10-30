@@ -60,11 +60,12 @@ async function refresh(){
  const stageIndex=status=>({received:0,reviewing:0,contacted:1,appointment:2,delivered:3,closed:-1})[status]??0;
  const approved=records.filter(x=>['earned','paid'].includes(rewardMap.get(x.id)?.status));
  const totalFor=x=>Number(rewardMap.get(x.id)?.amount||0)+Number(rainMap.get(x.id)?.bonus||0);
- const pending=records.filter(x=>rewardMap.get(x.id)?.status==='pending').reduce((sum,x)=>sum+totalFor(x),0);
- const earned=records.filter(x=>rewardMap.get(x.id)?.status==='earned').reduce((sum,x)=>sum+totalFor(x),0);
- const paid=records.filter(x=>rewardMap.get(x.id)?.status==='paid').reduce((sum,x)=>sum+totalFor(x),0);
+ const rewardTotal=r=>Number(r.amount||0)+Number(rainMap.get(r.referral_id)?.bonus||0);
+ const pending=(rewardRows||[]).filter(r=>r.status==='pending').reduce((sum,r)=>sum+rewardTotal(r),0);
+ const earned=(rewardRows||[]).filter(r=>r.status==='earned').reduce((sum,r)=>sum+rewardTotal(r),0);
+ const paid=(rewardRows||[]).filter(r=>r.status==='paid').reduce((sum,r)=>sum+rewardTotal(r),0);
  const money=n=>'$'+n.toLocaleString('en-US');
- for(const [label,value] of [['Tracked referrals',records.length],['Pending base rewards',rewardError?'Unavailable':money(pending)],['Earned — awaiting payout',rewardError||rainError?'Unavailable':money(earned)],['Paid rewards',rewardError||rainError?'Unavailable':money(paid)]]){
+ for(const [label,value] of [['Recent referrals (up to 50)',records.length],['Pending base rewards',rewardError?'Unavailable':money(pending)],['Earned — awaiting payout',rewardError||rainError?'Unavailable':money(earned)],['Paid rewards',rewardError||rainError?'Unavailable':money(paid)]]){
 
   const stat=document.createElement('div');stat.className='stat';const title=document.createElement('span');title.className='note';title.textContent=label;const num=document.createElement('strong');num.textContent=value;stat.append(title,num);$('refstats').append(stat);
  }
