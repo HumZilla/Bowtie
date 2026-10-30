@@ -93,109 +93,9 @@ async function loadRewards(){
   const heading=document.createElement('strong');heading.textContent=x.member_name+' · Stock '+x.stock;
   const info=document.createElement('p');info.textContent=x.tier.toUpperCase()+' BOW · '+x.amount+' points · $'+x.amount+' · '+x.status.toUpperCase();
   card.append(heading,info);
-  const rain=rainMap.get(x.referral_id);if(rain){const bonus=document.createElement('p');bonus.style.color='#f5ca77';bonus.textContent='🌈 Golden Rain Bow +{
-   const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';
-   label.append(check,document.createTextNode(' I verified the Hicks Family Subaru delivery in dealership records.'));
-   const btn=document.createElement('button');btn.type='button';btn.textContent='Mark reward earned';
-   btn.onclick=async()=>{if(!check.checked){message.textContent='Confirm the dealership delivery first.';return}
-    btn.disabled=true;const {error}=await supabase.rpc('bowtie_admin_reward_transition',{p_referral_id:x.referral_id,p_status:'earned',p_hfs_verified:true});
-    btn.disabled=false;message.textContent=error?'Unable to mark earned: '+error.message:'Reward marked earned. The dealership handles fulfillment.';if(!error)await loadRewards()};
-   card.append(label,btn);
-  }
-  if(x.status==='earned'){
-   const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';
-   label.append(check,document.createTextNode(' The dealership has completed the payout.'));
-   const btn=document.createElement('button');btn.type='button';btn.textContent='Record payout as paid';btn.disabled=!!rainError;
-   btn.onclick=async()=>{if(!check.checked){message.textContent='Confirm fulfillment first.';return}
-    btn.disabled=true;const {error}=await supabase.rpc('bowtie_admin_reward_transition',{p_referral_id:x.referral_id,p_status:'paid',p_hfs_verified:false});
-    btn.disabled=false;message.textContent=error?'Unable to record payout: '+error.message:'Payout recorded as paid.';if(!error)await loadRewards()};
-   card.append(label,btn);
-  }
-  target.append(card);
- }
-}
-async function loadTestimonials(){
-const target=document.getElementById('testimonialqueue');
-const {data,error}=await supabase.from('bowtie_testimonials').select('id,display_name,vehicle,moment_type,story,submitted_at,approved_at,rejected_at').order('submitted_at',{ascending:false}).limit(100);
-target.replaceChildren();if(error){target.textContent='Testimonials unavailable. Apply migration 009: '+error.message;return}
-if(!data?.length){target.textContent='No customer stories submitted yet.';return}
-for(const x of data){const box=document.createElement('div');box.className='card';const name=document.createElement('strong');name.textContent=x.display_name+' · '+(x.vehicle||x.moment_type||'Bowtie moment');const story=document.createElement('p');story.textContent=x.story;const state=document.createElement('p');state.className='muted';state.textContent=x.approved_at?'Published':x.rejected_at?'Rejected':'Pending review';box.append(name,story,state);
-for(const [label,approve] of [['Approve & publish',true],['Reject / unpublish',false]]){const btn=document.createElement('button');btn.textContent=label;btn.style.margin='4px';btn.onclick=async()=>{btn.disabled=true;const {error}=await supabase.rpc('moderate_bowtie_testimonial',{p_id:x.id,p_approve:approve});btn.disabled=false;if(error){state.textContent='Unable to update: '+error.message;return}await loadTestimonials()};box.append(btn)}
-target.append(box)}
-}
-const inventoryMsg=document.getElementById('inventorymsg'),inventoryAges=document.getElementById('inventoryages');
-async function loadInventoryAges(){
-const [{data,error},...responses]=await Promise.all([supabase.from('bowtie_inventory_admin').select('vin,stock,dealership,days_in_inventory,gold_bowtie').limit(500),fetch('./inventory-public.json').then(r=>r.json()),fetch('./inventory-other-stores.json').then(r=>r.json())]);
-inventoryAges.replaceChildren();
-if(error){inventoryMsg.textContent='Run migrations 007 and 008 once to enable one-tap Gold Bowtie: '+error.message;return}
-const all=responses.flatMap(r=>r.vehicles||[]),known=new Map((data||[]).map(v=>[v.vin,v]));
-const daysElapsed=Math.max(0,Math.floor((Date.now()-Date.parse('2026-10-23T00:00:00'))/86400000));
-const rows=all.map(v=>({...v,...known.get(v.vin),estimatedAge:v.store==='Hicks Family Subaru'&&known.get(v.vin)?.days_in_inventory!=null?known.get(v.vin).days_in_inventory+daysElapsed:null})).sort((a,b)=>{const ah=a.store==='Hicks Family Subaru',bh=b.store==='Hicks Family Subaru';return ah!==bh?(ah?-1:1):ah?(b.estimatedAge??-1)-(a.estimatedAge??-1):a.store.localeCompare(b.store)});
-inventoryMsg.textContent=rows.length+' vehicles · Hicks Family Subaru age estimates only · Other dealerships: feature on request';
-const table=document.createElement('table');table.style.cssText='width:100%;border-collapse:collapse;text-align:left;min-width:690px';const head=document.createElement('thead');const heading=document.createElement('tr');for(const title of ['STOCK','VEHICLE','STORE','DAYS IN INVENTORY','GOLD']){const th=document.createElement('th');th.textContent=title;th.style.cssText='padding:12px 10px;border-bottom:1px solid #72568b;font-size:12px;letter-spacing:1px';heading.append(th)}head.append(heading);table.append(head);const body=document.createElement('tbody');
-for(const v of rows){
-const line=document.createElement('tr');
-function cell(value){const td=document.createElement('td');td.textContent=value;td.style.cssText='padding:13px 10px;border-bottom:1px solid #493755';return td}
-line.append(cell(v.stock),cell(v.year+' '+v.make+' '+v.model+' '+v.trim),cell(v.store),cell(v.store==='Hicks Family Subaru'?(v.estimatedAge===null?'—':v.estimatedAge+' days (est.)'):'—'));
-const goldCell=cell('');const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=!!v.gold_bowtie;checkbox.setAttribute('aria-label','Gold Bowtie for stock '+v.stock);
-checkbox.onchange=async()=>{checkbox.disabled=true;const next=checkbox.checked;const {error}=await supabase.from('bowtie_inventory_admin').upsert({vin:v.vin,stock:v.stock,dealership:v.store,days_in_inventory:v.days_in_inventory??null,gold_bowtie:next,updated_at:new Date().toISOString()},{onConflict:'vin'});checkbox.disabled=false;if(error){checkbox.checked=!next;inventoryMsg.textContent='Could not save: '+error.message;return}v.gold_bowtie=next;inventoryMsg.textContent='Gold Bowtie saved. Public showroom updates when visitors reload.'};
-goldCell.append(checkbox);line.append(goldCell);body.append(line)
-}
-table.append(body);inventoryAges.append(table);
-}
-document.getElementById('signout').onclick=async()=>{await supabase.auth.signOut();location.href='./member.html'};verify();
-</script></body></html>+rain.bonus+' · Total payout {
-   const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';
-   label.append(check,document.createTextNode(' I verified the Hicks Family Subaru delivery in dealership records.'));
-   const btn=document.createElement('button');btn.type='button';btn.textContent='Mark reward earned';
-   btn.onclick=async()=>{if(!check.checked){message.textContent='Confirm the dealership delivery first.';return}
-    btn.disabled=true;const {error}=await supabase.rpc('bowtie_admin_reward_transition',{p_referral_id:x.referral_id,p_status:'earned',p_hfs_verified:true});
-    btn.disabled=false;message.textContent=error?'Unable to mark earned: '+error.message:'Reward marked earned. The dealership handles fulfillment.';if(!error)await loadRewards()};
-   card.append(label,btn);
-  }
-  if(x.status==='earned'){
-   const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';
-   label.append(check,document.createTextNode(' The dealership has completed the payout.'));
-   const btn=document.createElement('button');btn.type='button';btn.textContent='Record payout as paid';
-   btn.onclick=async()=>{if(!check.checked){message.textContent='Confirm fulfillment first.';return}
-    btn.disabled=true;const {error}=await supabase.rpc('bowtie_admin_reward_transition',{p_referral_id:x.referral_id,p_status:'paid',p_hfs_verified:false});
-    btn.disabled=false;message.textContent=error?'Unable to record payout: '+error.message:'Payout recorded as paid.';if(!error)await loadRewards()};
-   card.append(label,btn);
-  }
-  target.append(card);
- }
-}
-async function loadTestimonials(){
-const target=document.getElementById('testimonialqueue');
-const {data,error}=await supabase.from('bowtie_testimonials').select('id,display_name,vehicle,moment_type,story,submitted_at,approved_at,rejected_at').order('submitted_at',{ascending:false}).limit(100);
-target.replaceChildren();if(error){target.textContent='Testimonials unavailable. Apply migration 009: '+error.message;return}
-if(!data?.length){target.textContent='No customer stories submitted yet.';return}
-for(const x of data){const box=document.createElement('div');box.className='card';const name=document.createElement('strong');name.textContent=x.display_name+' · '+(x.vehicle||x.moment_type||'Bowtie moment');const story=document.createElement('p');story.textContent=x.story;const state=document.createElement('p');state.className='muted';state.textContent=x.approved_at?'Published':x.rejected_at?'Rejected':'Pending review';box.append(name,story,state);
-for(const [label,approve] of [['Approve & publish',true],['Reject / unpublish',false]]){const btn=document.createElement('button');btn.textContent=label;btn.style.margin='4px';btn.onclick=async()=>{btn.disabled=true;const {error}=await supabase.rpc('moderate_bowtie_testimonial',{p_id:x.id,p_approve:approve});btn.disabled=false;if(error){state.textContent='Unable to update: '+error.message;return}await loadTestimonials()};box.append(btn)}
-target.append(box)}
-}
-const inventoryMsg=document.getElementById('inventorymsg'),inventoryAges=document.getElementById('inventoryages');
-async function loadInventoryAges(){
-const [{data,error},...responses]=await Promise.all([supabase.from('bowtie_inventory_admin').select('vin,stock,dealership,days_in_inventory,gold_bowtie').limit(500),fetch('./inventory-public.json').then(r=>r.json()),fetch('./inventory-other-stores.json').then(r=>r.json())]);
-inventoryAges.replaceChildren();
-if(error){inventoryMsg.textContent='Run migrations 007 and 008 once to enable one-tap Gold Bowtie: '+error.message;return}
-const all=responses.flatMap(r=>r.vehicles||[]),known=new Map((data||[]).map(v=>[v.vin,v]));
-const daysElapsed=Math.max(0,Math.floor((Date.now()-Date.parse('2026-10-23T00:00:00'))/86400000));
-const rows=all.map(v=>({...v,...known.get(v.vin),estimatedAge:v.store==='Hicks Family Subaru'&&known.get(v.vin)?.days_in_inventory!=null?known.get(v.vin).days_in_inventory+daysElapsed:null})).sort((a,b)=>{const ah=a.store==='Hicks Family Subaru',bh=b.store==='Hicks Family Subaru';return ah!==bh?(ah?-1:1):ah?(b.estimatedAge??-1)-(a.estimatedAge??-1):a.store.localeCompare(b.store)});
-inventoryMsg.textContent=rows.length+' vehicles · Hicks Family Subaru age estimates only · Other dealerships: feature on request';
-const table=document.createElement('table');table.style.cssText='width:100%;border-collapse:collapse;text-align:left;min-width:690px';const head=document.createElement('thead');const heading=document.createElement('tr');for(const title of ['STOCK','VEHICLE','STORE','DAYS IN INVENTORY','GOLD']){const th=document.createElement('th');th.textContent=title;th.style.cssText='padding:12px 10px;border-bottom:1px solid #72568b;font-size:12px;letter-spacing:1px';heading.append(th)}head.append(heading);table.append(head);const body=document.createElement('tbody');
-for(const v of rows){
-const line=document.createElement('tr');
-function cell(value){const td=document.createElement('td');td.textContent=value;td.style.cssText='padding:13px 10px;border-bottom:1px solid #493755';return td}
-line.append(cell(v.stock),cell(v.year+' '+v.make+' '+v.model+' '+v.trim),cell(v.store),cell(v.store==='Hicks Family Subaru'?(v.estimatedAge===null?'—':v.estimatedAge+' days (est.)'):'—'));
-const goldCell=cell('');const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=!!v.gold_bowtie;checkbox.setAttribute('aria-label','Gold Bowtie for stock '+v.stock);
-checkbox.onchange=async()=>{checkbox.disabled=true;const next=checkbox.checked;const {error}=await supabase.from('bowtie_inventory_admin').upsert({vin:v.vin,stock:v.stock,dealership:v.store,days_in_inventory:v.days_in_inventory??null,gold_bowtie:next,updated_at:new Date().toISOString()},{onConflict:'vin'});checkbox.disabled=false;if(error){checkbox.checked=!next;inventoryMsg.textContent='Could not save: '+error.message;return}v.gold_bowtie=next;inventoryMsg.textContent='Gold Bowtie saved. Public showroom updates when visitors reload.'};
-goldCell.append(checkbox);line.append(goldCell);body.append(line)
-}
-table.append(body);inventoryAges.append(table);
-}
-document.getElementById('signout').onclick=async()=>{await supabase.auth.signOut();location.href='./member.html'};verify();
-</script></body></html>+rain.total_amount;card.append(bonus)}else if(rainError&&x.status!=='pending'){const warning=document.createElement('p');warning.textContent='Bonus verification unavailable; confirm total before payout.';card.append(warning)}
+  const rain=rainMap.get(x.referral_id);
+  if(rain){const bonus=document.createElement('p');bonus.textContent='Golden Rain Bow +$'+rain.bonus+' · Total payout $'+rain.total_amount;card.append(bonus)}
+  else if(rainError&&x.status!=='pending'){const warning=document.createElement('p');warning.textContent='Bonus verification unavailable; payout recording disabled.';card.append(warning)}
   if(x.status==='pending'){
    const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';
    label.append(check,document.createTextNode(' I verified the Hicks Family Subaru delivery in dealership records.'));
@@ -205,7 +105,7 @@ document.getElementById('signout').onclick=async()=>{await supabase.auth.signOut
     btn.disabled=false;message.textContent=error?'Unable to mark earned: '+error.message:'Reward marked earned. The dealership handles fulfillment.';if(!error)await loadRewards()};
    card.append(label,btn);
   }
-  if(x.status==='earned'){
+  if(x.status==='earned'&&!rainError){
    const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';
    label.append(check,document.createTextNode(' The dealership has completed the payout.'));
    const btn=document.createElement('button');btn.type='button';btn.textContent='Record payout as paid';
