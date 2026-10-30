@@ -95,4 +95,4 @@ $('join').onclick=async()=>{const name=$('name').value.trim(),email=$('email').v
 $('login').onclick=async()=>{const {error}=await supabase.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});msg(error?error.message:'Signed in.');await refresh()};
 $('signout').onclick=async()=>{await supabase.auth.signOut();msg('Signed out.');await refresh()};
 supabase.auth.onAuthStateChange(()=>{setTimeout(refresh,0)});refresh();
-</script></body></html>
+</script><script type="module" src="./golden-rain.js?v=20261030"></script></body></html>
