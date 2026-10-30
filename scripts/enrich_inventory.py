@@ -113,6 +113,8 @@ def main():
    v['dealerUrl']=url;counts['matched']+=1
    for key in ('price','miles','photo'):
     if details.get(key) is not None and details.get(key)!='':
+     if key=='price' and v.get('sourceDate')=='2026-10-30' and v.get('price') is not None and float(v['price'])>0:
+      continue  # Keep authoritative dealer CSV price; public scrape is secondary.
      v[key]=details[key];counts[key]+=1
    v['lastVerified']=time.strftime('%Y-%m-%d',time.gmtime())
    time.sleep(.15)
