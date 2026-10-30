@@ -19,7 +19,8 @@ label{display:block}#message{min-height:2em}#member{display:none}.code{word-brea
 <label>Email<input id="email" type="email" autocomplete="email" required></label>
 <label>Password (minimum 8 characters)<input id="password" type="password" autocomplete="new-password" minlength="8" required></label>
 <button type="button" id="join">Create account</button><button type="button" id="login" class="secondary">Sign in</button>
-</form><p class="muted">New members may need to confirm their email before signing in.</p></section>
+<button type="button" id="forgot" class="secondary">Send password reset email</button></form><p class="muted">New members may need to confirm their email before signing in.</p></section>
+<section class="card" id="recovery" hidden><h2>Set a new password</h2><p>Choose a new password for your Bowtie account.</p><form id="recoveryform"><label>New password<input id="newpassword" type="password" autocomplete="new-password" minlength="8" required></label><label>Confirm new password<input id="confirmpassword" type="password" autocomplete="new-password" minlength="8" required></label><button id="updatepassword" type="submit">Update password</button></form></section>
 <section class="card" id="member"><h2>My secure account</h2><p id="welcome"></p><p>Personal member code</p><div class="code" id="membercode"></div><p>Your permanent sharing link</p><div class="code" id="sharelink"></div><button id="copylink">Copy my link</button><p><a id="inquirylink" href="./inquiry.html">Open direct inquiry link →</a></p><p id="adminaccess"></p><p id="returnlink"></p><h2>Your referrals. Your progress. 🎀</h2><p class="muted">See milestones, share vehicles and track potential rewards. Your friend controls their buying decision; only dealership-confirmed milestones appear here.</p><div class="stats" id="refstats" aria-label="Referral overview"></div><h3>Referral progress</h3><div id="referrals" aria-live="polite">Loading referrals…</div><h3>Reward review</h3><p class="note">Potential values are not earned or payable until a qualifying purchase is verified and approved. The dealership handles fulfillment; no payments are issued through Bowtie.</p><div id="rewardstatus">Loading…</div><p class="note">Privacy first: no buyer names, contact details, financing information, deal terms, or private messages are shown to referrers. Status updates may be delayed. Please follow up only with people who welcome it, and never promise approval, financing, or a reward.</p><button id="signout" class="secondary">Sign out</button></section>
 <p id="message" role="status" aria-live="polite"></p>
 </main>
@@ -27,10 +28,12 @@ label{display:block}#message{min-height:2em}#member{display:none}.code{word-brea
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const supabase=createClient('https://uwwzrfijxbvxqvivbudh.supabase.co','sb_publishable_djuaYH0SjmfGBVXKWgbyBQ_1e8uWAbf');
 const $=id=>document.getElementById(id);
+let recovering=false;
 const returnTarget=new URLSearchParams(location.search).get('return');
 const safeReturn=returnTarget&&/^\.\/inquiry\.html(?:#(?:stock|ref)=.*)?$/.test(returnTarget)?returnTarget:null;
 function msg(s){$('message').textContent=s}
 async function refresh(){
+ if(recovering){$('guest').style.display='none';$('member').style.display='none';$('recovery').hidden=false;return}
  const {data:{user},error}=await supabase.auth.getUser();
  if(error||!user){$('guest').style.display='block';$('member').style.display='none';return}
  const {data:profile,error:pError}=await supabase.from('member_profiles').select('display_name,member_code').eq('user_id',user.id).single();
@@ -104,5 +107,25 @@ $('join').onclick=async()=>{const name=$('name').value.trim(),email=$('email').v
  msg(error?error.message:'Registration submitted. Check your email for a confirmation link, if required.');await refresh()};
 $('login').onclick=async()=>{const {error}=await supabase.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});msg(error?error.message:'Signed in.');await refresh()};
 $('signout').onclick=async()=>{await supabase.auth.signOut();msg('Signed out.');await refresh()};
-supabase.auth.onAuthStateChange(()=>{setTimeout(refresh,0)});refresh();
+$('forgot').onclick=async()=>{
+ const email=$('email').value.trim();
+ if(!$('email').reportValidity())return;
+ const button=$('forgot');button.disabled=true;
+ try{const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+ msg(error?error.message:'If this email has a Bowtie account, a password reset link has been sent. Check your inbox and spam folder.');}
+ catch{msg('Unable to request a reset right now. Please try again.')}
+ finally{button.disabled=false}
+};
+$('recoveryform').onsubmit=async event=>{
+ event.preventDefault();
+ if($('newpassword').value!==$('confirmpassword').value){msg('The passwords do not match.');return}
+ const button=$('updatepassword');button.disabled=true;
+ try{const {error}=await supabase.auth.updateUser({password:$('newpassword').value});
+ if(error){msg(error.message);return}
+ $('recoveryform').reset();recovering=false;$('recovery').hidden=true;
+ await supabase.auth.signOut();msg('Password updated. Sign in with your new password.');await refresh();
+ }catch{msg('Unable to update your password. Request a new reset link and try again.')}
+ finally{button.disabled=false}
+};
+supabase.auth.onAuthStateChange(event=>{if(event==='PASSWORD_RECOVERY'){recovering=true;msg('Reset link verified. Enter your new password.')}setTimeout(refresh,0)});refresh();
 </script><script type="module" src="./golden-rain.js?v=20261030-goldtie2"></script></body></html>
