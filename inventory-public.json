@@ -17,9 +17,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHM62T3758307/69e88b5e26efacf0ca9b9729.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 35118,
+      "msrp": 37360,
+      "daysInInventory": 199,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPDD9TY530879",
@@ -36,9 +40,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPDD9TY530879/6a0b8b8ad5b3ce8287c837cf.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 41361,
+      "msrp": 44151,
+      "daysInInventory": 170,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHM69T3779526",
@@ -55,9 +63,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHM69T3779526/6a20a38d7c79adf8a95ae979.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 35519,
+      "msrp": 37786,
+      "daysInInventory": 155,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHM69T3794656",
@@ -74,28 +86,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHM69T3794656/6a565da2d0de48bb2185010d.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
-    },
-    {
-      "id": "JF2BURMD7TY558708",
-      "vin": "JF2BURMD7TY558708",
-      "stock": "12031",
-      "year": 2026,
-      "make": "Subaru",
-      "model": "Outback",
-      "trim": "Wilderness",
-      "type": "new",
-      "store": "Hicks Family Subaru",
-      "miles": 5,
-      "color": "Silver",
-      "certified": false,
-      "photo": "https://cdn.max.auto/108197/JF2BURMD7TY558708/6a5aa693d32d364d1b6ae464.jpg",
-      "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 35434,
+      "msrp": 37696,
+      "daysInInventory": 116,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2GUSGDXT8268973",
@@ -112,9 +109,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2GUSGDXT8268973/6a735e7638219a8e38c645c6.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 33879,
+      "msrp": 36041,
+      "daysInInventory": 108,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHM6XT3794150",
@@ -131,9 +132,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHM6XT3794150/6a735e7738219a8e38c65642.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 35434,
+      "msrp": 37696,
+      "daysInInventory": 101,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHM68T3801516",
@@ -150,9 +155,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHM68T3801516/6a735e7638219a8e38c64a61.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 34992,
+      "msrp": 37226,
+      "daysInInventory": 93,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHM68T3801273",
@@ -169,9 +178,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHM68T3801273/6a7c993206a8025f66bc68de.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 36476,
+      "msrp": 37226,
+      "daysInInventory": 92,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMAGD8T3434016",
@@ -188,9 +201,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4WMAGD8T3434016/6a7f909e06a8025f66f4b2a5.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 49776,
+      "msrp": 50526,
+      "daysInInventory": 85,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLDF65T3143205",
@@ -207,9 +224,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4SLDF65T3143205/6a7f909f06a8025f66f4cd13.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 36523,
+      "msrp": 37023,
+      "daysInInventory": 85,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHU6XT3806152",
@@ -226,9 +247,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHU6XT3806152/6a7fe51906a8025f66d439d5.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 38009,
+      "msrp": 38759,
+      "daysInInventory": 85,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JTMBGAHC9TY006071",
@@ -245,9 +270,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JTMBGAHC9TY006071/6a92056fbf022d29b206e33c.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 45822,
+      "msrp": 46072,
+      "daysInInventory": 77,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLDL6XT3149280",
@@ -264,9 +293,13 @@
       "certified": false,
       "photo": "",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 41284,
+      "msrp": 41784,
+      "daysInInventory": 74,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMAAD1T3434884",
@@ -283,9 +316,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4WMAAD1T3434884/6a920571bf022d29b20713e9.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 42772,
+      "msrp": 43272,
+      "daysInInventory": 71,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMAGD8T3434937",
@@ -302,9 +339,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4WMAGD8T3434937/6a964ec2bf022d29b201fd11.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 50026,
+      "msrp": 50526,
+      "daysInInventory": 69,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF1VBAH61T9812363",
@@ -321,9 +362,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF1VBAH61T9812363/6ac07e5db79b5781aab1e866.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 33359,
+      "msrp": null,
+      "daysInInventory": 65,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF1GUAFC0T8278631",
@@ -340,9 +385,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF1GUAFC0T8278631/6a98f1bbb21b03fd7fc5409b.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 30108,
+      "msrp": null,
+      "daysInInventory": 65,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMAFD6T3437000",
@@ -359,9 +408,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4WMAFD6T3437000/6a989cfcb21b03fd7fd19212.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 49856,
+      "msrp": 50356,
+      "daysInInventory": 60,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLSE79T3156389",
@@ -378,28 +431,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4SLSE79T3156389/6a9b3febb21b03fd7fe1a71b.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
-    },
-    {
-      "id": "JF2BUPBD8TY578764",
-      "vin": "JF2BUPBD8TY578764",
-      "stock": "12137",
-      "year": 2026,
-      "make": "Subaru",
-      "model": "Outback",
-      "trim": "Premium",
-      "type": "new",
-      "store": "Hicks Family Subaru",
-      "miles": 5,
-      "color": "Green",
-      "certified": false,
-      "photo": "https://cdn.max.auto/108197/JF2BUPBD8TY578764/6aadb511050dae99f5b090d2.jpg",
-      "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 36658,
+      "msrp": 36908,
+      "daysInInventory": 59,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD0TY582159",
@@ -416,9 +454,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD0TY582159/6aadb50c050dae99f5b01b93.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39666,
+      "msrp": null,
+      "daysInInventory": 43,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPDD1TY580532",
@@ -435,9 +477,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPDD1TY580532/6ab1a965050dae99f5a91782.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 44219,
+      "msrp": null,
+      "daysInInventory": 43,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMALD0V3400449",
@@ -454,9 +500,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4WMALD0V3400449/6ab59e17050dae99f520fa79.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 54619,
+      "msrp": null,
+      "daysInInventory": 43,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD9TY579759",
@@ -473,9 +523,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD9TY579759/6ab1a966050dae99f5a92156.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39734,
+      "msrp": null,
+      "daysInInventory": 43,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BURLD7TY579964",
@@ -492,9 +546,13 @@
       "certified": false,
       "photo": "",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 49811,
+      "msrp": null,
+      "daysInInventory": 43,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPAD6TY580210",
@@ -511,28 +569,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPAD6TY580210/6aadb50d050dae99f5b0365f.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
-    },
-    {
-      "id": "JF2BURMD2TY580180",
-      "vin": "JF2BURMD2TY580180",
-      "stock": "12132",
-      "year": 2026,
-      "make": "Subaru",
-      "model": "Outback",
-      "trim": "Wilderness",
-      "type": "new",
-      "store": "Hicks Family Subaru",
-      "miles": 5,
-      "color": "Gray",
-      "certified": false,
-      "photo": "https://cdn.max.auto/108197/JF2BURMD2TY580180/6aadb50c050dae99f5b01957.jpg",
-      "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 37396,
+      "msrp": null,
+      "daysInInventory": 43,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPAD3TY592329",
@@ -549,9 +592,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPAD3TY592329/6ab6ef6b050dae99f5d3af9a.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 37519,
+      "msrp": null,
+      "daysInInventory": 42,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD5TY592573",
@@ -568,9 +615,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD5TY592573/6ab6ef6f050dae99f5d3d7c1.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 40184,
+      "msrp": null,
+      "daysInInventory": 42,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD7TY592655",
@@ -587,9 +638,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD7TY592655/6abd86dfb79b5781aae831ef.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39789,
+      "msrp": null,
+      "daysInInventory": 42,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2GUSND6T8289564",
@@ -606,28 +661,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2GUSND6T8289564/6ab1a966050dae99f5a92102.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
-    },
-    {
-      "id": "4S4GUHD69T3819667",
-      "vin": "4S4GUHD69T3819667",
-      "stock": "12155",
-      "year": 2026,
-      "make": "Subaru",
-      "model": "Crosstrek",
-      "trim": "Premium",
-      "type": "new",
-      "store": "Hicks Family Subaru",
-      "miles": 5,
-      "color": "Black",
-      "certified": false,
-      "photo": "https://cdn.max.auto/108197/4S4GUHD69T3819667/6abb38389b656e249cc1bbf6.jpg",
-      "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39045,
+      "msrp": null,
+      "daysInInventory": 42,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMABD8V3401348",
@@ -644,9 +684,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4WMABD8V3401348/6abb383e9b656e249cc1e8e9.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 43150,
+      "msrp": null,
+      "daysInInventory": 37,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD7TY591649",
@@ -663,9 +707,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD7TY591649/6abb38389b656e249cc1b8bc.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39789,
+      "msrp": null,
+      "daysInInventory": 37,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JTMBGAHC8TY008488",
@@ -682,28 +730,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JTMBGAHC8TY008488/6abd86e2b79b5781aae85bb8.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
-    },
-    {
-      "id": "4S4SLST79T3175656",
-      "vin": "4S4SLST79T3175656",
-      "stock": "12170",
-      "year": 2026,
-      "make": "Subaru",
-      "model": "Forester",
-      "trim": "Touring Hybrid",
-      "type": "new",
-      "store": "Hicks Family Subaru",
-      "miles": 5,
-      "color": "White",
-      "certified": false,
-      "photo": "https://cdn.max.auto/108197/4S4SLST79T3175656/6ac472b9b79b5781aaf0bbc7.jpg",
-      "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 41788,
+      "msrp": null,
+      "daysInInventory": 37,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHD68T3824312",
@@ -720,9 +753,13 @@
       "certified": false,
       "photo": "",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 32553,
+      "msrp": null,
+      "daysInInventory": 32,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLDH65T3176377",
@@ -737,11 +774,15 @@
       "miles": 5,
       "color": "White",
       "certified": false,
-      "photo": "",
+      "photo": "https://cdn.max.auto/108197/4S4SLDH65T3176377/6ae02282936feaf4de3d40a8.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 38935,
+      "msrp": null,
+      "daysInInventory": 32,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLSE79T3170907",
@@ -758,9 +799,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4SLSE79T3170907/6abd86e1b79b5781aae8547b.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 37303,
+      "msrp": null,
+      "daysInInventory": 32,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMAKDXV3401271",
@@ -777,9 +822,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4WMAKDXV3401271/6ac7be7ec543ae8b074c18a3.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 53887,
+      "msrp": null,
+      "daysInInventory": 32,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHD69T3824304",
@@ -796,9 +845,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHD69T3824304/6ac96457c543ae8b0761fe48.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 32553,
+      "msrp": null,
+      "daysInInventory": 32,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLSJ78T3173030",
@@ -815,9 +868,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4SLSJ78T3173030/6ac41e52b79b5781aae5877d.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 40297,
+      "msrp": null,
+      "daysInInventory": 32,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLST7XT3175441",
@@ -834,9 +891,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4SLST7XT3175441/6ac41e5bb79b5781aae5c96a.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 44643,
+      "msrp": 44643,
+      "daysInInventory": 32,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHD68T3824374",
@@ -853,9 +914,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHD68T3824374/6ac7be8fc543ae8b074c6556.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 32553,
+      "msrp": null,
+      "daysInInventory": 25,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHM67T3826570",
@@ -872,9 +937,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHM67T3826570/6ac96451c543ae8b0761cbf6.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 37240,
+      "msrp": null,
+      "daysInInventory": 25,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHM6XT3826742",
@@ -891,9 +960,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHM6XT3826742/6ac96462c543ae8b07628f94.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 37240,
+      "msrp": null,
+      "daysInInventory": 25,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4GUHU68T3825735",
@@ -910,28 +983,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4GUHU68T3825735/6ac96451c543ae8b0761cdbe.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
-    },
-    {
-      "id": "JF2BURJD3TY597641",
-      "vin": "JF2BURJD3TY597641",
-      "stock": "12190",
-      "year": 2026,
-      "make": "Subaru",
-      "model": "Outback",
-      "trim": "Touring XT",
-      "type": "new",
-      "store": "Hicks Family Subaru",
-      "miles": 5,
-      "color": "White",
-      "certified": false,
-      "photo": "https://cdn.max.auto/108197/JF2BURJD3TY597641/6acdad65c543ae8b0778e050.jpg",
-      "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 38759,
+      "msrp": null,
+      "daysInInventory": 25,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMALD4V3403094",
@@ -948,9 +1006,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4WMALD4V3403094/6ad29ed2c543ae8b075c0954.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 54720,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLSR78T3178779",
@@ -967,9 +1029,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4SLSR78T3178779/6acdad60c543ae8b0778d5e4.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 41517,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD2TY597424",
@@ -986,9 +1052,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD2TY597424/6acdad66c543ae8b0778e575.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39698,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BURJD9TY597742",
@@ -1005,9 +1075,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BURJD9TY597742/6acffbe5c543ae8b07f483c1.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 50393,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BURMD4TY598227",
@@ -1024,9 +1098,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BURMD4TY598227/6ad29edbc543ae8b075ca655.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 51871,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD4TY597764",
@@ -1043,9 +1121,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD4TY597764/6acdad65c543ae8b0778e12b.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 40093,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPAD0TY598427",
@@ -1062,9 +1144,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPAD0TY598427/6acffbe0c543ae8b07f44b8c.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 37428,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPAD7TY597811",
@@ -1081,9 +1167,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPAD7TY597811/6ad29ed1c543ae8b075c029c.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 37428,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD2TY597861",
@@ -1100,9 +1190,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD2TY597861/6ad69359c543ae8b077b0d39.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39698,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD3TY597593",
@@ -1119,9 +1213,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD3TY597593/6acffbdcc543ae8b07f42d18.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39698,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPDD6TY597536",
@@ -1138,9 +1236,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPDD6TY597536/6acffbe0c543ae8b07f44f1a.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 44265,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPED7TY595535",
@@ -1157,9 +1259,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPED7TY595535/6ad69362c543ae8b077b8b1a.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 47937,
+      "msrp": null,
+      "daysInInventory": 22,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLDR66T3176726",
@@ -1174,11 +1280,15 @@
       "miles": 5,
       "color": "Gray",
       "certified": false,
-      "photo": "",
+      "photo": "https://cdn.max.auto/108197/4S4SLDR66T3176726/6adbd969530700a11124a9d9.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 40117,
+      "msrp": null,
+      "daysInInventory": 18,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLSJ7XT3175779",
@@ -1195,9 +1305,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4SLSJ7XT3175779/6ad6935ec543ae8b077b453e.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 40765,
+      "msrp": null,
+      "daysInInventory": 18,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD6TY597460",
@@ -1214,9 +1328,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/JF2BUPBD6TY597460/6ad29ed4c543ae8b075c1dd3.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39698,
+      "msrp": null,
+      "daysInInventory": 18,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLDT68T3175876",
@@ -1233,9 +1351,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4SLDT68T3175876/6ad29ed3c543ae8b075c16d8.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 42698,
+      "msrp": null,
+      "daysInInventory": 18,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLDT6XT3175796",
@@ -1252,9 +1374,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4SLDT6XT3175796/6ad29ed2c543ae8b075c0776.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 42698,
+      "msrp": null,
+      "daysInInventory": 18,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLST79T3178654",
@@ -1269,11 +1395,15 @@
       "miles": 5,
       "color": "Black",
       "certified": false,
-      "photo": "",
+      "photo": "https://cdn.max.auto/108197/4S4SLST79T3178654/6adbd96b530700a11124bcff.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 44248,
+      "msrp": null,
+      "daysInInventory": 16,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMABD8V3402998",
@@ -1290,9 +1420,13 @@
       "certified": false,
       "photo": "https://cdn.max.auto/108197/4S4WMABD8V3402998/6ad9369c530700a111a3941f.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 43881,
+      "msrp": null,
+      "daysInInventory": 11,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4WMAKD7V3400756",
@@ -1309,9 +1443,13 @@
       "certified": false,
       "photo": "",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 53887,
+      "msrp": null,
+      "daysInInventory": 11,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLDA6XT3191466",
@@ -1328,9 +1466,13 @@
       "certified": false,
       "photo": "",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 32546,
+      "msrp": null,
+      "daysInInventory": 9,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "4S4SLSR75T3162491",
@@ -1345,11 +1487,15 @@
       "miles": 5,
       "color": "",
       "certified": false,
-      "photo": "",
+      "photo": "https://cdn.max.auto/108197/4S4SLSR75T3162491/6ae270e6936feaf4de93d905.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 41517,
+      "msrp": null,
+      "daysInInventory": 9,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2GUSND1T8290413",
@@ -1364,11 +1510,15 @@
       "miles": 5,
       "color": "",
       "certified": false,
-      "photo": "",
+      "photo": "https://cdn.max.auto/108197/JF2GUSND1T8290413/6ae02284936feaf4de3d46ab.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
-      "gold": false
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39045,
+      "msrp": null,
+      "daysInInventory": 9,
+      "inventoryAgeAsOf": "2026-10-30"
     },
     {
       "id": "JF2BUPBD3TY597299",
@@ -1383,10 +1533,36 @@
       "miles": 5,
       "color": "",
       "certified": false,
-      "photo": "",
+      "photo": "https://cdn.max.auto/108197/JF2BUPBD3TY597299/6ae21c83936feaf4de42eb30.jpg",
       "dealerUrl": "",
-      "lastVerified": null,
-      "sourceDate": "2026-10-23",
+      "lastVerified": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "gold": false,
+      "price": 39698,
+      "msrp": null,
+      "daysInInventory": 9,
+      "inventoryAgeAsOf": "2026-10-30"
+    },
+    {
+      "id": "4S4SLDD67T3178301",
+      "vin": "4S4SLDD67T3178301",
+      "stock": "12214",
+      "year": 2026,
+      "make": "Subaru",
+      "model": "Forester",
+      "trim": "Premium",
+      "type": "new",
+      "store": "Hicks Family Subaru",
+      "miles": 5,
+      "color": "",
+      "certified": false,
+      "photo": "https://cdn.max.auto/108197/4S4SLDD67T3178301/6ae270e5936feaf4de93c94f.jpg",
+      "price": 35373,
+      "msrp": null,
+      "daysInInventory": 6,
+      "inventoryAgeAsOf": "2026-10-30",
+      "sourceDate": "2026-10-30",
+      "lastVerified": "2026-10-30",
       "gold": false
     },
     {
