@@ -1,0 +1,29 @@
+name: Refresh HFS inventory
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: hfs-inventory-refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch and validate MAX Digital inventory
+        run: python scripts/update_hfs_inventory.py
+      - name: Commit updated inventory when changed
+        run: |
+          if ! git diff --quiet -- inventory-public.json; then
+            git config user.name "bowtie-inventory-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add inventory-public.json
+            git commit -m "Auto-refresh HFS inventory from MAX Digital"
+            git push
+          fi
